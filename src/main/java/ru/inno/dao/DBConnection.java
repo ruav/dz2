@@ -14,7 +14,7 @@ public class DBConnection {
 
     private static Connection connection;
 
-    private String url = "jdbc:postgresql://localhost:5433/postgres";
+    private String url = "jdbc:postgresql://localhost:5432/postgres";
     private String name = "postgres";
     private String password = "postgres";
     private static Logger logger = LoggerFactory.getLogger(DBConnection.class);
