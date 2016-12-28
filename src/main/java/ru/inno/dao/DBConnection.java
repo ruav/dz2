@@ -20,14 +20,18 @@ public class DBConnection {
     private static Logger logger = LoggerFactory.getLogger(DBConnection.class);
 
 
-    private DBConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        connection = DriverManager.getConnection(url, name, password);
-        logger.info("Connection is created");
+    private DBConnection() {
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, name, password);
+            logger.info("Connection is created");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+    public static Connection getConnection()  {
         if(connection == null){
             new DBConnection();
         }

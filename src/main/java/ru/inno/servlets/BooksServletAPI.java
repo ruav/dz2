@@ -5,6 +5,7 @@ import ru.inno.dao.BookDao;
 import ru.inno.dao.BookDaoImpl;
 import ru.inno.dao.DBConnection;
 import ru.inno.pojo.Book;
+import ru.inno.utils.MyException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,14 +37,16 @@ public class BooksServletAPI extends HttpServlet {
 //        Animal a1 = gson.fromJson(json, Animal.class);
         List<Book> books = new ArrayList<>();
 
+
+            BookDao bookDao = new BookDaoImpl();
         try {
-            BookDao bookDao = new BookDaoImpl(DBConnection.getConnection());
             books = bookDao.getAllBooks();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (MyException e) {
+//            req.getRequestDispatcher("error").forward(req,resp);
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req,resp);
+            return;
         }
+
 
         Gson gson = new Gson();
         String json = gson.toJson(books);

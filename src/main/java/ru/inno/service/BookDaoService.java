@@ -2,10 +2,9 @@ package ru.inno.service;
 
 import ru.inno.dao.BookDao;
 import ru.inno.dao.BookDaoImpl;
-import ru.inno.dao.DBConnection;
 import ru.inno.pojo.Book;
+import ru.inno.utils.MyException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,39 +12,37 @@ import java.util.List;
  */
 public class BookDaoService {
 
+    //todo сделать статиком
 
-    BookDao  bookDao;  ///сделать статиком
 
-    public BookDaoService() throws SQLException, ClassNotFoundException {
-        bookDao = new BookDaoImpl(DBConnection.getConnection());
-    }
+    private static BookDao bookDao = new BookDaoImpl();
 
-    public Book getBookById(int id){
+    public static Book getBookById(int id) throws MyException {
         return bookDao.getBookById(id);
     }
 
-    public List<Book> getBookByTitle(String title){
+    public static List<Book> getBookByTitle(String title) throws MyException {
         return bookDao.getBookByTitle(title);
     }
-    public List<Book> getBookByPublisher(String publisher){
+    public static List<Book> getBookByPublisher(String publisher) throws MyException {
         return bookDao.getBookByPublisher(publisher);
     }
-    public List<Book> getBookByAuthor(String author){
-        return bookDao.getBookByAuthor(author);
+    public static List<Book> getBookByAuthor(String author) throws MyException {
+        return bookDao.getBooksByAuthor(author);
     }
-    public List<Book> getBookByYear(int year){
+    public static List<Book> getBookByYear(int year) throws MyException {
         return bookDao.getBookByYear(year);
     }
-    public List<Book> getAllBooks(){
+    public static List<Book> getAllBooks() throws MyException {
         return bookDao.getAllBooks();
     }
-    public void removeBookById(int id){
+    public static void removeBookById(int id) throws MyException {
         bookDao.removeBookById(id);
     }
-    public void addBook(Book book){
+    public static void addBook(Book book) throws MyException {
         bookDao.addBook(book);
     }
-    public void updateBook(Book book) {
+    public static void updateBook(Book book) throws MyException {
         bookDao.updateBook(book);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 import ru.inno.utils.MyMath;
 
 import javax.servlet.ServletException;
@@ -45,15 +46,24 @@ public class UsersServlet extends HttpServlet {
             UserDaoService userDaoService = new UserDaoService();
 
             req.setAttribute("edit", id);
-            req.setAttribute("user", userDaoService.getUserById(id));
+            try {
+                req.setAttribute("user", userDaoService.getUserById(id));
+            } catch (MyException e) {
+                req.getRequestDispatcher("/error").forward(req,resp);
+                return;
+            }
             req.getRequestDispatcher("/jsp/users/edituser.jsp").forward(req, resp);
         } else {
 
 
-            UserDaoService userDaoService = new UserDaoService();
 //            UserDaoService userDaoService = applicationContext.getBean("");
             req.setAttribute("title", "Список всех пользователей");
-            req.setAttribute("users", userDaoService.getAllUsers());
+            try {
+                req.setAttribute("users", UserDaoService.getAllUsers());
+            } catch (MyException e) {
+                req.getRequestDispatcher("/error").forward(req,resp);
+                return;
+            }
 //            System.out.println("user = " + httpSession.getAttribute("login"));
 //            System.out.println(userDaoService.getAllUsers().toString());
             req.getRequestDispatcher("jsp/users/users.jsp").forward(req, resp);
@@ -78,20 +88,22 @@ public class UsersServlet extends HttpServlet {
 //            System.out.println(str + " : " + req.getParameter(str));
 //        }
 
-        try {
 //            System.out.println((req.getParameter("remove") != null));
 //            System.out.println(!req.getParameter("remove").equals(""));
 
             if ((req.getParameter("remove") != null) && (!req.getParameter("remove").equals(""))) {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
-                UserDaoService userDaoService = new UserDaoService();
-                userDaoService.removeUserById(id);
+                try {
+                    UserDaoService.removeUserById(id);
+                } catch (MyException e) {
+                    req.getRequestDispatcher("/error").forward(req,resp);
+                    return;
+                }
             } else if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
 
                 int id = Integer.valueOf(req.getParameter("edit"));
                 User user = new User();
-                UserDaoService userDaoService = new UserDaoService();
 
                 user.setLogin(req.getParameter("login"));
                 user.setFirstName(req.getParameter("firstname"));
@@ -99,7 +111,12 @@ public class UsersServlet extends HttpServlet {
                 user.setPassword(MyMath.createMD5(req.getParameter("password")));
                 user.setId(id);
 
-                userDaoService.updateUserById(user);
+                try {
+                    UserDaoService.updateUserById(user);
+                } catch (MyException e) {
+                    req.getRequestDispatcher("/error").forward(req,resp);
+                    return;
+                }
 
 //                req.getRequestDispatcher("users").forward(req, resp);
                 resp.sendRedirect("/users");
@@ -107,14 +124,21 @@ public class UsersServlet extends HttpServlet {
 
                 int id = Integer.valueOf(req.getParameter("adminconfig"));
                 boolean isAdmin = Boolean.valueOf(req.getParameter("isadmin"));
-                UserDaoService userDaoService = new UserDaoService();
 
-                User user = userDaoService.getUserById(id);
-                user.setAdmin(isAdmin);
+                User user = null;
+                try {
+                    user = UserDaoService.getUserById(id);
+                    UserDaoService.updateUserById(user);
+                    req.removeAttribute("adminconfig");
+                    req.removeAttribute("isadmin");
+                    user.setAdmin(isAdmin);
+                } catch (MyException e) {
+                    req.getRequestDispatcher("/error").forward(req,resp);
+                    return;
+                }
 
-                userDaoService.updateUserById(user);
-                req.removeAttribute("adminconfig");
-                req.removeAttribute("isadmin");
+
+
 //                req.getRequestDispatcher("/users") .forward(req, resp);
 
                 /**
@@ -124,9 +148,5 @@ public class UsersServlet extends HttpServlet {
                  */
                 resp.sendRedirect("/users");
             }
-        }catch (Exception e){
-            e.printStackTrace();
-//            System.out.println("Nullpointer!!!!!!");
-        }
     }
 }

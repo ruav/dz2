@@ -6,6 +6,7 @@ import ru.inno.dao.DBConnection;
 import ru.inno.dao.UserDao;
 import ru.inno.dao.UserDaoImpl;
 import ru.inno.pojo.User;
+import ru.inno.utils.MyException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,42 +19,31 @@ import java.util.List;
 //@ComponentScan
 //@Configurable
 public class UserDaoService {
-//    @Autowired
-    UserDao userDao;
 
+    //todo сделать статиком
+    //    @Autowired
+    private static UserDao userDao = new UserDaoImpl();
 
-    public UserDaoService() {
-        try {
-//        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        this.userDao = (UserDao) applicationContext.getBean("userDao");
-
-            this.userDao = new UserDaoImpl(DBConnection.getConnection());
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public User getUserById(int id){
+    public static User getUserById(int id) throws MyException {
         return userDao.getUserById(id);
     }
-    public User getUserByLogin(String login){
+    public static User getUserByLogin(String login) throws MyException {
         return userDao.getUserByLogin(login);
     }
-    public List<User> getAllUsers(){
+    public static List<User> getAllUsers() throws MyException {
         return userDao.getAllUsers();
     }
-    public void removeUserById(int id){
+    public static void removeUserById(int id) throws MyException {
         userDao.removeUserById(id);
     }
-    public void createUser(User user){
+    public static void createUser(User user) throws MyException {
         userDao.createUser(user);
     }
-
-    public void updateUserById(User user){
+    public static void updateUserById(User user) throws MyException {
         userDao.updateUserById(user);
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+//    public void setUserDao(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
 }

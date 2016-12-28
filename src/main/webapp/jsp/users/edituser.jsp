@@ -24,7 +24,10 @@
             var cpass = document.getElementById("cpassword").value;
 
             if(pass != null && pass != "" && pass == cpass){
-                document.getElementById("form").submit();
+         <c:if test="${empty userId}">
+    <%--<div>Войдите в систему</div>--%>
+    <c:redirect url="/login"/>
+</c:if>       document.getElementById("form").submit();
             } else {
                 document.getElementById("password").style.border = "solid 2px red";
                 document.getElementById("cpassword").style.border = "solid 2px red";

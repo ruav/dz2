@@ -40,10 +40,10 @@
 
     </table>
 </c:if>
-<c:if test="${empty userId}">
-    <%--<div>Войдите в систему</div>--%>
-    <c:redirect url="/login"/>
-</c:if>
+<%--<c:if test="${empty userId}">--%>
+    <%--&lt;%&ndash;<div>Войдите в систему</div>&ndash;%&gt;--%>
+    <%--<c:redirect url="/login"/>--%>
+<%--</c:if>--%>
 
 </body>
 </html>

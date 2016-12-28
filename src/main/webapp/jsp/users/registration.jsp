@@ -33,7 +33,7 @@
                 if (login == ''  || password    == '' || cpassword == '') {
                     alert("Please fill all fields...!!!!!!");
                 } else if (!jQuery.isEmptyObject(password) && (password.length) < 6)  {
-                    alert("Password should atleast 8 character in length...!!!!!!");
+                    alert("Password should atleast 6 character in length...!!!!!!");
                 } else if (password.localeCompare(cpassword) != 0) {
                     alert("Your passwords don't match. Try again?");
                 } else {
@@ -43,13 +43,15 @@
                         lastname:lastname,
                         password: password
                     }, function(data) {
-                        if (data == 'You have Successfully Registered.....') {
-//                            $("form")[0].reset();
+                        if (data == 'error') {
 
-
+                            //   $("form")[0].reset();
+                            window.location.replace("/error")
+//
+                        } else {
+                            alert(data);
+                            window.location.replace("/");
                         }
-//                        alert(data);
-                        window.location.replace("/");
                     });
                 }
             });

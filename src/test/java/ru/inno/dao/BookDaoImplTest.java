@@ -20,7 +20,7 @@ public class BookDaoImplTest {
     @Ignore
     @Before
     public void init() throws SQLException, ClassNotFoundException {
-        bookDao = new BookDaoImpl(DBConnection.getConnection());
+        bookDao = new BookDaoImpl();
     }
 
 
@@ -47,7 +47,7 @@ public class BookDaoImplTest {
     @Test
     public void getBookByAuthor() throws Exception {
         String author = "Жан Фавье";
-        List<Book> bookList = bookDao.getBookByAuthor(author);
+        List<Book> bookList = bookDao.getBooksByAuthor(author);
         assertTrue(bookList.get(0).getId() == 2);
     }
 

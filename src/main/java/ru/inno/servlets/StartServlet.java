@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +36,12 @@ public class StartServlet extends HttpServlet {
         if(httpSession.getAttribute("userId") != null){
             UserDaoService userDaoService = new UserDaoService();
             req.setAttribute("title","Список всех пользователей");
-            req.setAttribute("users", userDaoService.getAllUsers());
+            try {
+                req.setAttribute("users", userDaoService.getAllUsers());
+            } catch (MyException e) {
+                req.getRequestDispatcher("/jsp/error.jsp").forward(req,resp);
+                return;
+            }
             req.getRequestDispatcher("/users").forward(req,resp);
         }
     }

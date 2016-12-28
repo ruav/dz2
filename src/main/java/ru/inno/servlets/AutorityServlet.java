@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 import ru.inno.utils.MyMath;
 
 import javax.servlet.ServletException;
@@ -64,15 +65,21 @@ public class AutorityServlet extends HttpServlet {
 //            String pass = DatatypeConverter.printHexBinary(messageDigest).toUpperCase();
             UserDaoService userDaoService = new UserDaoService();
             User user = null;
-            if((user = userDaoService.getUserByLogin(req.getParameter("login"))) != null){
-                if(user.getPassword().equals(pass)){
-                    httpSession.setAttribute("userId",user.getLogin()); // заменить на userId
-                    httpSession.setAttribute("admin",user.isAdmin());
-                    logger.info("user: " + httpSession.getAttribute("userId"));
-                    req.getRequestDispatcher("/").forward(req,resp);
+            try {
+                if((user = userDaoService.getUserByLogin(req.getParameter("login"))) != null){
+                    if(user.getPassword().equals(pass)){
+                        httpSession.setAttribute("userId",user.getLogin()); // заменить на userId
+                        httpSession.setAttribute("admin",user.isAdmin());
+                        logger.info("user: " + httpSession.getAttribute("userId"));
+                        req.getRequestDispatcher("/").forward(req,resp);
 
+                    }
                 }
-            } req.getRequestDispatcher("/").forward(req,resp);
+            } catch (MyException e) {
+                req.getRequestDispatcher("/jsp/error.jsp").forward(req,resp);
+                return;
+            }
+            req.getRequestDispatcher("/").forward(req,resp);
 
         } else if(httpSession.getAttribute("userId") != null){
             UserDaoService userDaoService = new UserDaoService();
