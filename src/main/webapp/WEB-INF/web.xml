@@ -61,7 +61,10 @@
         <servlet-name>addbook</servlet-name>
         <jsp-file>/jsp/books/addbook.jsp</jsp-file>
     </servlet>
-
+    <servlet>
+        <servlet-name>error</servlet-name>
+        <jsp-file>/jsp/error.jsp</jsp-file>
+    </servlet>
 
 
     <servlet-mapping>
@@ -99,6 +102,11 @@
         <servlet-name>addbook</servlet-name>
         <url-pattern>/addbook</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
 
 
 

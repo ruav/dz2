@@ -2,10 +2,9 @@ package ru.inno.service;
 
 import ru.inno.dao.BookDao;
 import ru.inno.dao.BookDaoImpl;
-import ru.inno.dao.DBConnection;
 import ru.inno.pojo.Book;
+import ru.inno.utils.MyException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,38 +13,35 @@ import java.util.List;
 public class BookDaoService {
 
 
-    BookDao  bookDao;  ///сделать статиком
 
-    public BookDaoService() throws SQLException, ClassNotFoundException {
-        bookDao = new BookDaoImpl(DBConnection.getConnection());
-    }
+    private static BookDao bookDao = new BookDaoImpl();
 
-    public Book getBookById(int id){
-        return bookDao.getBookById(id);
+    public static Book getById(int id) throws MyException {
+        return bookDao.getById(id);
     }
 
-    public List<Book> getBookByTitle(String title){
-        return bookDao.getBookByTitle(title);
+    public static List<Book> getByTitle(String title) throws MyException {
+        return bookDao.getByTitle(title);
     }
-    public List<Book> getBookByPublisher(String publisher){
-        return bookDao.getBookByPublisher(publisher);
+    public static List<Book> getByPublisher(String publisher) throws MyException {
+        return bookDao.getByPublisher(publisher);
     }
-    public List<Book> getBookByAuthor(String author){
-        return bookDao.getBookByAuthor(author);
+    public static List<Book> getByAuthor(String author) throws MyException {
+        return bookDao.getByAuthor(author);
     }
-    public List<Book> getBookByYear(int year){
-        return bookDao.getBookByYear(year);
+    public static List<Book> getByYear(int year) throws MyException {
+        return bookDao.getByYear(year);
     }
-    public List<Book> getAllBooks(){
-        return bookDao.getAllBooks();
+    public static List<Book> getAll() throws MyException {
+        return bookDao.getAll();
     }
-    public void removeBookById(int id){
-        bookDao.removeBookById(id);
+    public static void removeById(int id) throws MyException {
+        bookDao.removeById(id);
     }
-    public void addBook(Book book){
-        bookDao.addBook(book);
+    public static void add(Book book) throws MyException {
+        bookDao.add(book);
     }
-    public void updateBook(Book book) {
-        bookDao.updateBook(book);
+    public static void update(Book book) throws MyException {
+        bookDao.update(book);
     }
 }

@@ -15,6 +15,9 @@ public class Book {
     private String publisher;
 
     public Book() {
+        title = "";
+        author = "";
+        publisher = "";
     }
 
     public Book(String title, String author, int yearPublishing, String publisher) {

@@ -2,6 +2,7 @@ package ru.inno.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.inno.utils.MyException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,9 +28,14 @@ public class DBConnection {
     }
 
 
-    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+    public static Connection getConnection() throws MyException {
         if(connection == null){
-            new DBConnection();
+            try {
+                new DBConnection();
+            } catch (ClassNotFoundException | SQLException e) {
+                logger.warn("Error with create DBConnection");
+                throw new MyException("Error with create DBConnection");
+            }
         }
 
         return connection;

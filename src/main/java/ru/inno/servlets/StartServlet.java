@@ -2,19 +2,15 @@ package ru.inno.servlets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Alexander Rudnev
@@ -35,7 +31,12 @@ public class StartServlet extends HttpServlet {
         if(httpSession.getAttribute("userId") != null){
             UserDaoService userDaoService = new UserDaoService();
             req.setAttribute("title","Список всех пользователей");
-            req.setAttribute("users", userDaoService.getAllUsers());
+            try {
+                req.setAttribute("users", userDaoService.getAll());
+            } catch (MyException e) {
+//                e.printStackTrace();
+                req.getRequestDispatcher("/error").forward(req,resp);
+            }
             req.getRequestDispatcher("/users").forward(req,resp);
         }
     }

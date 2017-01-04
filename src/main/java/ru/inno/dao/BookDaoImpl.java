@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.inno.pojo.Book;
+import ru.inno.utils.MyException;
+import ru.inno.utils.Queries;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,6 +36,11 @@ public class BookDaoImpl implements BookDao {
     private static Logger logger = LoggerFactory.getLogger(BookDaoImpl.class);
 
     public BookDaoImpl() {
+        try {
+            this.connection = DBConnection.getConnection();
+        } catch (MyException e) {
+            logger.warn("Exception in contruction DBConnection" + Arrays.toString(e.getStackTrace()));
+        }
     }
 
     public BookDaoImpl(Connection dbConnection) {
@@ -44,14 +52,15 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book getBookById(int id) {
+    public Book getById(int id) throws MyException {
 
         Book book = new Book();
-
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(BOOKBYID);
-            statement.setInt(1,id);
-            ResultSet rs = statement.executeQuery();
+            statement = connection.prepareStatement(BOOKBYID);
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
             rs.next();
 
             book.setId(rs.getInt("id"));
@@ -62,14 +71,26 @@ public class BookDaoImpl implements BookDao {
             rs.close();
             statement.close();
         } catch (SQLException e) {
-            logger.warn("Some exception in getBookById");
+            logger.warn("SQLException in getById" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in getById");
+        }finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                logger.warn("SQLException in getById" + Arrays.toString(e.getStackTrace()));
+            }
         }
 
         return book;
     }
 
     @Override
-    public List<Book> getBookByTitle(String title) {
+    public List<Book> getByTitle(String title) throws MyException {
         List<Book> books = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -77,7 +98,7 @@ public class BookDaoImpl implements BookDao {
             statement = connection.prepareStatement(BOOKBYTITLE);
             statement.setString(1, title);
             rs = statement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Book book = new Book();
 
                 book.setId(rs.getInt("id"));
@@ -90,13 +111,17 @@ public class BookDaoImpl implements BookDao {
             }
 
         } catch (SQLException e) {
-            logger.warn("Some exception in getBookByTitle" + e.getStackTrace());
-        }finally {
+            logger.warn("SQLException in getByTitle" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in getByTitle");
+        } finally {
             try {
-                rs.close();
-                statement.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
-                logger.warn("Some exception in getBookByTitle" + e.getStackTrace());
             }
         }
 
@@ -104,14 +129,14 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> getBookByPublisher(String publisher) {
+    public List<Book> getByPublisher(String publisher) throws MyException {
         List<Book> books = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
         try {
             statement = connection.createStatement();
             rs = statement.executeQuery("select * from books where publisher like '%" + publisher + "%'");
-            while(rs.next()){
+            while (rs.next()) {
                 Book book = new Book();
 
                 book.setId(rs.getInt("id"));
@@ -124,13 +149,18 @@ public class BookDaoImpl implements BookDao {
             }
 
         } catch (SQLException e) {
-            logger.warn("Some exception in getBookByPublisher" + e.getStackTrace());
-        }finally {
+            logger.warn("SQLException in addBook" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in addBook");
+        } finally {
             try {
-                rs.close();
-                statement.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
-                logger.warn("Some exception in getBookByPublisher" + e.getStackTrace());
+                logger.warn("Some exception in getByPublisher" + e.getStackTrace());
             }
         }
 
@@ -138,14 +168,17 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> getBookByAuthor(String author) {
+    public List<Book> getByAuthor(String author) throws MyException {
         List<Book> books = new ArrayList<>();
-        Statement statement = null;
+//        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet rs = null;
         try {
-            statement = connection.createStatement();
-            rs = statement.executeQuery("select * from books where author = '" + author + "'");
-            while(rs.next()){
+            statement = connection.prepareStatement(Queries.SELECTALLFROMTABLEBYFIELD.replaceFirst("\\?","books").replaceFirst("\\?","author"));
+//            rs = statement.executeQuery("select * from books where author = '" + author + "'");
+            statement.setString(1, author);
+            rs = statement.executeQuery();
+            while (rs.next()) {
                 Book book = new Book();
 
                 book.setId(rs.getInt("id"));
@@ -158,21 +191,25 @@ public class BookDaoImpl implements BookDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
+            logger.warn("SQLException in getBooksByAuthor" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in getBooksByAuthor");
+        } finally {
             try {
-                rs.close();
-                statement.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.warn("SQLException in addBook" + Arrays.toString(e.getStackTrace()));
             }
         }
-
         return books;
     }
 
     @Override
-    public List<Book> getBookByYear(int year) {
+    public List<Book> getByYear(int year) throws MyException {
         List<Book> books = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -180,7 +217,7 @@ public class BookDaoImpl implements BookDao {
             statement = connection.prepareStatement(BOOKBYYEAR);
             statement.setInt(1, year);
             rs = statement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Book book = new Book();
 
                 book.setId(rs.getInt("id"));
@@ -193,13 +230,14 @@ public class BookDaoImpl implements BookDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
+            logger.warn("SQLException in getByYear" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in getByYear");
+        } finally {
             try {
                 rs.close();
                 statement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.warn("SQLException in addBook" + Arrays.toString(e.getStackTrace()));
             }
         }
 
@@ -207,14 +245,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> getAllBooks() {
+    public List<Book> getAll() throws MyException {
         List<Book> books = new ArrayList<>();
-        Statement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = connection.createStatement();
-            rs = statement.executeQuery("select * from books");
-            while(rs.next()){
+        try (PreparedStatement statement = connection.prepareStatement(Queries.SELECTALLFROMTABLE.replaceFirst("\\?","books"))){
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
                 Book book = new Book();
 
                 book.setId(rs.getInt("id"));
@@ -227,86 +262,72 @@ public class BookDaoImpl implements BookDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            logger.warn("SQLException in getAll" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in getAll");
         }
 
         return books;
     }
 
     @Override
-    public void removeBookById(int id) {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            statement.execute("delete from books where id = " + id);
+    public void removeById(int id) throws MyException {
 
+        try (Statement statement = connection.createStatement()){
+            statement.execute("delete from books where id = " + id);
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            logger.warn("SQLException in removeById" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in removeById");
         }
 
     }
 
     @Override
-    public void addBook(Book book){
+    public void add(Book book) throws MyException {
         try {
 
 
             Statement statement = connection.createStatement();
 
             String query = "insert into books (title, publisher";
-            if(!book.getAuthor().isEmpty()){
-                query +=",author";
-            }if(book.getYearPublishing() != 0){
-                query +=",yearpub";
+            if (!book.getAuthor().isEmpty()) {
+                query += ",author";
+            }
+            if (book.getYearPublishing() != 0) {
+                query += ",yearpub";
             }
             query += ") values('" + book.getTitle() + "','" + book.getPublisher() + "'";
-            if(!book.getAuthor().isEmpty()){
-                query +=",'" + book.getAuthor() + "'";
-            }if(book.getYearPublishing() != 0){
-                query +="," + book.getYearPublishing();
+            if (!book.getAuthor().isEmpty()) {
+                query += ",'" + book.getAuthor() + "'";
+            }
+            if (book.getYearPublishing() != 0) {
+                query += "," + book.getYearPublishing();
             }
             query += ")";
             statement.execute(query);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn("SQLException in addBook" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in addBook");
         }
     }
 
     @Override
-    public void updateBook(Book book){
+    public void update(Book book) throws MyException {
 
-        //            String query = "insert into users (login, password, firstname, lastname) values('" ;
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(UPDATEBOOK);
+
+        // insert into users (login, password, firstname, lastname) values(
+
+        try (PreparedStatement statement = connection.prepareStatement(UPDATEBOOK)) {
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getPublisher());
             statement.setInt(4, book.getYearPublishing());
             statement.setInt(5, book.getId());
-
-            //            logger.info(statement.get);
-
             statement.executeUpdate();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn("SQLException in update" + Arrays.toString(e.getStackTrace()));
+            throw new MyException("SQLException in update");
         }
-
-
     }
-
 }

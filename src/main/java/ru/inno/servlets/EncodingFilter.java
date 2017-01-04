@@ -20,7 +20,7 @@ public class EncodingFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         String url = req.getRequestURI();
 
-        if(req.getSession().getAttribute("userId") == null && !url.endsWith("login") && !url.endsWith("register") && !url.endsWith("autority")) {
+        if(req.getSession().getAttribute("userId") == null && !url.endsWith("login") && !url.endsWith("register") && !url.endsWith("autority") && !url.contains("error")) {
 
                 resp.sendRedirect("/login");
                 return;
@@ -40,7 +40,6 @@ public class EncodingFilter implements Filter {
     }
 
     public void destroy() {
-        // nothing todo
     }
 
 }

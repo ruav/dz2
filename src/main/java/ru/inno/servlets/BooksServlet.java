@@ -1,9 +1,8 @@
 package ru.inno.servlets;
 
 import ru.inno.pojo.Book;
-import ru.inno.pojo.User;
 import ru.inno.service.BookDaoService;
-import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Служит для обработки операций с
@@ -47,7 +45,7 @@ public class BooksServlet extends HttpServlet {
                 book.setTitle(req.getParameter("title"));
                 book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
 
-                bookDaoService.addBook(book);
+                bookDaoService.add(book);
 
                 resp.sendRedirect("/books");
 //                req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
@@ -57,7 +55,7 @@ public class BooksServlet extends HttpServlet {
 
                 int id = Integer.valueOf(req.getParameter("edit"));
                 req.setAttribute("edit", id);
-                req.setAttribute("book",bookDaoService.getBookById(id));
+                req.setAttribute("book",bookDaoService.getById(id));
                 req.getRequestDispatcher("/jsp/books/editbook.jsp").forward(req, resp);
 
             }
@@ -66,15 +64,16 @@ public class BooksServlet extends HttpServlet {
 
 //            UserDaoService userDaoService = applicationContext.getBean("");
                 req.setAttribute("title", "Список литературы");
-                req.setAttribute("books", bookDaoService.getAllBooks());
+                req.setAttribute("books", bookDaoService.getAll());
 //            System.out.println("user = " + httpSession.getAttribute("login"));
-//            System.out.println(userDaoService.getAllUsers().toString());
+//            System.out.println(userDaoService.getAll().toString());
                 req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
             }
 //        } else
 //            req.getRequestDispatcher("/").forward(req, resp);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (MyException e) {
+//            e.printStackTrace();
+            req.getRequestDispatcher("/error").forward(req,resp);
         }
 
     }
@@ -93,7 +92,7 @@ public class BooksServlet extends HttpServlet {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
                 BookDaoService bookDaoService = new BookDaoService();
-                bookDaoService.removeBookById(id);
+                bookDaoService.removeById(id);
                 resp.sendRedirect("/books");
             } else if (req.getParameter("editbook") != null && !req.getParameter("editbook").equals("")) {
 
@@ -113,11 +112,12 @@ public class BooksServlet extends HttpServlet {
                 book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
                 book.setPublisher(req.getParameter("publisher"));
 
-                bookDaoService.updateBook(book);
+                bookDaoService.update(book);
                 resp.sendRedirect("/books");
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (MyException e){
+//            e.printStackTrace();
+            req.getRequestDispatcher("/error").forward(req,resp);
         }
     }
 }

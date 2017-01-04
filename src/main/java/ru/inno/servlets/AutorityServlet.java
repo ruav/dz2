@@ -2,9 +2,9 @@ package ru.inno.servlets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 import ru.inno.utils.MyMath;
 
 import javax.servlet.ServletException;
@@ -12,11 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -62,23 +58,26 @@ public class AutorityServlet extends HttpServlet {
 //            }
 //            byte[] messageDigest = md.digest(req.getParameter("password").getBytes());
 //            String pass = DatatypeConverter.printHexBinary(messageDigest).toUpperCase();
-            UserDaoService userDaoService = new UserDaoService();
+//            UserDaoService userDaoService = new UserDaoService();
             User user = null;
-            if((user = userDaoService.getUserByLogin(req.getParameter("login"))) != null){
-                if(user.getPassword().equals(pass)){
+            try {
+                if((user = UserDaoService.getByLogin(req.getParameter("login"))) != null && user.getPassword().equals(pass)){
                     httpSession.setAttribute("userId",user.getLogin()); // заменить на userId
                     httpSession.setAttribute("admin",user.isAdmin());
                     logger.info("user: " + httpSession.getAttribute("userId"));
                     req.getRequestDispatcher("/").forward(req,resp);
-
                 }
-            } req.getRequestDispatcher("/").forward(req,resp);
+            } catch (MyException e) {
+//                e.printStackTrace();
+                req.getRequestDispatcher("/error").forward(req,resp);
+            }
+            req.getRequestDispatcher("/").forward(req,resp);
 
         } else if(httpSession.getAttribute("userId") != null){
-            UserDaoService userDaoService = new UserDaoService();
             req.getRequestDispatcher("/").forward(req,resp);
+        }else {
+
+            req.getRequestDispatcher("/").forward(req, resp);
         }
-
-
     }
 }

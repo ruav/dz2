@@ -1,16 +1,14 @@
 package ru.inno.servlets;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
+import ru.inno.utils.MyException;
 import ru.inno.utils.MyMath;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -45,7 +43,12 @@ public class UsersServlet extends HttpServlet {
             UserDaoService userDaoService = new UserDaoService();
 
             req.setAttribute("edit", id);
-            req.setAttribute("user", userDaoService.getUserById(id));
+            try {
+                req.setAttribute("user", userDaoService.getById(id));
+            } catch (MyException e) {
+//                e.printStackTrace();
+                req.getRequestDispatcher("/error").forward(req,resp);
+            }
             req.getRequestDispatcher("/jsp/users/edituser.jsp").forward(req, resp);
         } else {
 
@@ -53,9 +56,14 @@ public class UsersServlet extends HttpServlet {
             UserDaoService userDaoService = new UserDaoService();
 //            UserDaoService userDaoService = applicationContext.getBean("");
             req.setAttribute("title", "Список всех пользователей");
-            req.setAttribute("users", userDaoService.getAllUsers());
+            try {
+                req.setAttribute("users", userDaoService.getAll());
+            } catch (MyException e) {
+//                e.printStackTrace();
+                req.getRequestDispatcher("/error").forward(req,resp);
+            }
 //            System.out.println("user = " + httpSession.getAttribute("login"));
-//            System.out.println(userDaoService.getAllUsers().toString());
+//            System.out.println(userDaoService.getAll().toString());
             req.getRequestDispatcher("jsp/users/users.jsp").forward(req, resp);
         }
 //        } else
@@ -86,7 +94,7 @@ public class UsersServlet extends HttpServlet {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
                 UserDaoService userDaoService = new UserDaoService();
-                userDaoService.removeUserById(id);
+                userDaoService.removeById(id);
             } else if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
 
                 int id = Integer.valueOf(req.getParameter("edit"));
@@ -99,7 +107,7 @@ public class UsersServlet extends HttpServlet {
                 user.setPassword(MyMath.createMD5(req.getParameter("password")));
                 user.setId(id);
 
-                userDaoService.updateUserById(user);
+                userDaoService.updateById(user);
 
 //                req.getRequestDispatcher("users").forward(req, resp);
                 resp.sendRedirect("/users");
@@ -109,10 +117,10 @@ public class UsersServlet extends HttpServlet {
                 boolean isAdmin = Boolean.valueOf(req.getParameter("isadmin"));
                 UserDaoService userDaoService = new UserDaoService();
 
-                User user = userDaoService.getUserById(id);
+                User user = userDaoService.getById(id);
                 user.setAdmin(isAdmin);
 
-                userDaoService.updateUserById(user);
+                userDaoService.updateById(user);
                 req.removeAttribute("adminconfig");
                 req.removeAttribute("isadmin");
 //                req.getRequestDispatcher("/users") .forward(req, resp);
@@ -125,7 +133,8 @@ public class UsersServlet extends HttpServlet {
                 resp.sendRedirect("/users");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            req.getRequestDispatcher("/error").forward(req,resp);
+//            e.printStackTrace();
 //            System.out.println("Nullpointer!!!!!!");
         }
     }

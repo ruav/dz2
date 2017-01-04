@@ -13,6 +13,10 @@ public class User {
     private String lastName;
 
     public User() {
+        login = "";
+        password = "";
+        firstName = "";
+        lastName = "";
     }
 
     public User(String login, String password, boolean admin, String firstName, String lastName) {

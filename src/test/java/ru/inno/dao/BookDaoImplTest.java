@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * @author Danil Popov
+ * @author Alexander Rudnev
  */
 @Ignore
 public class BookDaoImplTest {
@@ -26,29 +26,30 @@ public class BookDaoImplTest {
 
     @Test
     public void getBookById() throws Exception {
-        Book book = bookDao.getBookById(1);
+        Book book = bookDao.getById(1);
         assertTrue(book.getId() == 1);
     }
 
     @Test
     public void getBookByTitle() throws Exception {
         String title = "Тарас Бульба";
-        List<Book> bookList = bookDao.getBookByTitle(title);
+        List<Book> bookList = bookDao.getByTitle(title);
         assertTrue(bookList.get(0).getId() == 3);
     }
 
     @Test
     public void getBookByPublisher() throws Exception {
         String publisher = "Евразия";
-        List<Book> bookList = bookDao.getBookByPublisher(publisher);
+        List<Book> bookList = bookDao.getByPublisher(publisher);
         assertTrue(bookList.get(0).getId() == 2);
     }
 
     @Test
     public void getBookByAuthor() throws Exception {
-        String author = "Жан Фавье";
-        List<Book> bookList = bookDao.getBookByAuthor(author);
-        assertTrue(bookList.get(0).getId() == 2);
+//        String author = "Жан Фавье";
+        String author = "Поба";
+        List<Book> bookList = bookDao.getByAuthor(author);
+        assertTrue(!bookList.isEmpty());
     }
 
     @Ignore

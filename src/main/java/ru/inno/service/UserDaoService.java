@@ -1,13 +1,10 @@
 package ru.inno.service;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.inno.dao.DBConnection;
 import ru.inno.dao.UserDao;
 import ru.inno.dao.UserDaoImpl;
 import ru.inno.pojo.User;
+import ru.inno.utils.MyException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,42 +15,31 @@ import java.util.List;
 //@ComponentScan
 //@Configurable
 public class UserDaoService {
-//    @Autowired
-    UserDao userDao;
 
+    //    @Autowired
 
-    public UserDaoService() {
-        try {
-//        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        this.userDao = (UserDao) applicationContext.getBean("userDao");
+    private static UserDao userDao = new UserDaoImpl();
 
-            this.userDao = new UserDaoImpl(DBConnection.getConnection());
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static User getById(int id) throws MyException {
+        return userDao.getById(id);
     }
-
-    public User getUserById(int id){
-        return userDao.getUserById(id);
+    public static User getByLogin(String login) throws MyException {
+        return userDao.getByLogin(login);
     }
-    public User getUserByLogin(String login){
-        return userDao.getUserByLogin(login);
+    public static List<User> getAll() throws MyException {
+        return userDao.getAll();
     }
-    public List<User> getAllUsers(){
-        return userDao.getAllUsers();
+    public static void removeById(int id) throws MyException {
+        userDao.removeById(id);
     }
-    public void removeUserById(int id){
-        userDao.removeUserById(id);
+    public static void add(User user) throws MyException {
+        userDao.add(user);
     }
-    public void createUser(User user){
-        userDao.createUser(user);
+    public static void updateById(User user) throws MyException {
+        userDao.updateById(user);
     }
 
-    public void updateUserById(User user){
-        userDao.updateUserById(user);
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+//    public void setUserDao(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
 }
