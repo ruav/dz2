@@ -21,7 +21,6 @@ public class EncodingFilter implements Filter {
         String url = req.getRequestURI();
 
         if(req.getSession().getAttribute("userId") == null && !url.endsWith("login") && !url.endsWith("register") && !url.endsWith("autority") && !url.contains("error")) {
-
                 resp.sendRedirect("/login");
                 return;
         } else if(req.getSession().getAttribute("userId") != null && (req.getRequestURI().endsWith("login") || req.getRequestURI().endsWith("register"))){

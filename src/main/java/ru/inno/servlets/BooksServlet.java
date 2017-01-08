@@ -91,8 +91,8 @@ public class BooksServlet extends HttpServlet {
             if ((req.getParameter("remove") != null) && (!req.getParameter("remove").equals(""))) {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
-                BookDaoService bookDaoService = new BookDaoService();
-                bookDaoService.removeById(id);
+//                BookDaoService bookDaoService = new BookDaoService();
+                BookDaoService.removeById(id);
                 resp.sendRedirect("/books");
             } else if (req.getParameter("editbook") != null && !req.getParameter("editbook").equals("")) {
 

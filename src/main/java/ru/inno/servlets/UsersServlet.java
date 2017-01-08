@@ -64,6 +64,9 @@ public class UsersServlet extends HttpServlet {
             }
 //            System.out.println("user = " + httpSession.getAttribute("login"));
 //            System.out.println(userDaoService.getAll().toString());
+
+//            System.out.println(req.getRemoteUser());
+
             req.getRequestDispatcher("jsp/users/users.jsp").forward(req, resp);
         }
 //        } else
@@ -119,6 +122,7 @@ public class UsersServlet extends HttpServlet {
 
                 User user = userDaoService.getById(id);
                 user.setAdmin(isAdmin);
+
 
                 userDaoService.updateById(user);
                 req.removeAttribute("adminconfig");
