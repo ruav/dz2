@@ -35,7 +35,7 @@ public class BooksServlet extends HttpServlet {
         try {
 //        if (httpSession.getAttribute("userId") != null) {
 
-                BookDaoService bookDaoService = new BookDaoService();
+//                BookDaoService bookDaoService = new BookDaoService();
 
             if(req.getParameter("addbook")!= null){
                 Book book = new Book();
@@ -45,17 +45,17 @@ public class BooksServlet extends HttpServlet {
                 book.setTitle(req.getParameter("title"));
                 book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
 
-                bookDaoService.add(book);
+                BookDaoService.add(book);
 
                 resp.sendRedirect("/books");
 //                req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
             }else if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
 
-                bookDaoService = new BookDaoService();
+//                bookDaoService = new BookDaoService();
 
                 int id = Integer.valueOf(req.getParameter("edit"));
                 req.setAttribute("edit", id);
-                req.setAttribute("book",bookDaoService.getById(id));
+                req.setAttribute("book",BookDaoService.getById(id));
                 req.getRequestDispatcher("/jsp/books/editbook.jsp").forward(req, resp);
 
             }
@@ -64,7 +64,7 @@ public class BooksServlet extends HttpServlet {
 
 //            UserDaoService userDaoService = applicationContext.getBean("");
                 req.setAttribute("title", "Список литературы");
-                req.setAttribute("books", bookDaoService.getAll());
+                req.setAttribute("books", BookDaoService.getAll());
 //            System.out.println("user = " + httpSession.getAttribute("login"));
 //            System.out.println(userDaoService.getAll().toString());
                 req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
@@ -98,7 +98,7 @@ public class BooksServlet extends HttpServlet {
 
                 int id = Integer.valueOf(req.getParameter("id"));
 
-                BookDaoService bookDaoService = new BookDaoService();
+//                BookDaoService bookDaoService = new BookDaoService();
 
                 for(String str : req.getParameterMap().keySet()){
                     System.out.println(str + ": " + req.getParameter(str));
@@ -112,7 +112,7 @@ public class BooksServlet extends HttpServlet {
                 book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
                 book.setPublisher(req.getParameter("publisher"));
 
-                bookDaoService.update(book);
+                BookDaoService.update(book);
                 resp.sendRedirect("/books");
             }
         }catch (MyException e){
