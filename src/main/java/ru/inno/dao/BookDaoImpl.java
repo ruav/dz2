@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.inno.pojo.Book;
 import ru.inno.utils.MyException;
 import ru.inno.utils.Queries;
@@ -16,6 +17,8 @@ import java.util.List;
 /**
  * @author Alexander Rudnev
  */
+
+@Component
 public class BookDaoImpl implements BookDao {
 
     Connection connection;

@@ -35,12 +35,10 @@
 
   </head>
   <body>
-  <h3>Вы зашли, как ${sessionScope.userId}</h3>
-  <form action="/autority" method="post">
-    <button type="submit" value="exit" name="exit">Выйти из текущего пользователя</button>
-  </form>
 
-  <%@include file="/html/navigate.html"%>
+
+  <%--<%@include file="../../html/navigate.html"%>--%>
+  <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
   <div>
     <%--<form method="LINK" action="/createbook">--%>
@@ -48,7 +46,7 @@
     <%--</form>--%>
     <c:if test="${sessionScope.admin eq true}">
         <form>
-          <input type="button" value="Добавить новую книгу" onClick='location.href="/addbook"'>
+          <input type="button" value="Добавить новую книгу" onClick='location.href="/books/addbook"'>
         </form>
     </c:if>
 

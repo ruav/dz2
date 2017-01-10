@@ -80,7 +80,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
+//                ", password='" + password + '\'' +
                 ", admin=" + admin +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

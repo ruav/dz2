@@ -1,5 +1,7 @@
 package ru.inno.servlets;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.inno.pojo.Book;
 import ru.inno.service.BookDaoService;
 import ru.inno.utils.MyException;
@@ -18,6 +20,7 @@ import java.io.IOException;
  * а отображение списка - в методе GET.
  * * @author Alexander Rudnev
  */
+@Service
 public class BooksServlet extends HttpServlet {
 
 //    ApplicationContext applicationContext = null;
@@ -27,6 +30,9 @@ public class BooksServlet extends HttpServlet {
 //    public void init() throws ServletException {
 //        applicationContext = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
 //    }
+
+    @Autowired
+    private BookDaoService bookDaoService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,19 +49,20 @@ public class BooksServlet extends HttpServlet {
                 book.setAuthor(req.getParameter("author"));
                 book.setPublisher(req.getParameter("publisher"));
                 book.setTitle(req.getParameter("title"));
-                book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
+                book.setYearPublishing(Integer.parseInt(req.getParameter("yearPublishing")));
 
-                BookDaoService.add(book);
+                bookDaoService.add(book);
 
                 resp.sendRedirect("/books");
 //                req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
-            }else if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
+            } else
+            if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
 
 //                bookDaoService = new BookDaoService();
 
                 int id = Integer.valueOf(req.getParameter("edit"));
                 req.setAttribute("edit", id);
-                req.setAttribute("book",BookDaoService.getById(id));
+                req.setAttribute("book",bookDaoService.getById(id));
                 req.getRequestDispatcher("/jsp/books/editbook.jsp").forward(req, resp);
 
             }
@@ -64,7 +71,7 @@ public class BooksServlet extends HttpServlet {
 
 //            UserDaoService userDaoService = applicationContext.getBean("");
                 req.setAttribute("title", "Список литературы");
-                req.setAttribute("books", BookDaoService.getAll());
+                req.setAttribute("books", bookDaoService.getAll());
 //            System.out.println("user = " + httpSession.getAttribute("login"));
 //            System.out.println(userDaoService.getAll().toString());
                 req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
@@ -92,7 +99,7 @@ public class BooksServlet extends HttpServlet {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
 //                BookDaoService bookDaoService = new BookDaoService();
-                BookDaoService.removeById(id);
+                bookDaoService.removeById(id);
                 resp.sendRedirect("/books");
             } else if (req.getParameter("editbook") != null && !req.getParameter("editbook").equals("")) {
 
@@ -112,7 +119,7 @@ public class BooksServlet extends HttpServlet {
                 book.setYearPublishing(Integer.parseInt(req.getParameter("yearpub")));
                 book.setPublisher(req.getParameter("publisher"));
 
-                BookDaoService.update(book);
+                bookDaoService.update(book);
                 resp.sendRedirect("/books");
             }
         }catch (MyException e){

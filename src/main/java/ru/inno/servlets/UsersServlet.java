@@ -1,5 +1,7 @@
 package ru.inno.servlets;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
 import ru.inno.utils.MyException;
@@ -18,7 +20,11 @@ import java.io.IOException;
  * а отображение списка - в методе GET.
  * @author Alexander Rudnev
  */
+@Service
 public class UsersServlet extends HttpServlet {
+
+    @Autowired
+    private UserDaoService userDaoService;
 
 //    ApplicationContext applicationContext = null;
 //
@@ -40,7 +46,7 @@ public class UsersServlet extends HttpServlet {
 
             int id = Integer.valueOf(req.getParameter("edit"));
 
-            UserDaoService userDaoService = new UserDaoService();
+//            UserDaoService userDaoService = new UserDaoService();
 
             req.setAttribute("edit", id);
             try {
@@ -53,7 +59,7 @@ public class UsersServlet extends HttpServlet {
         } else {
 
 
-            UserDaoService userDaoService = new UserDaoService();
+//            UserDaoService userDaoService = new UserDaoService();
 //            UserDaoService userDaoService = applicationContext.getBean("");
             req.setAttribute("title", "Список всех пользователей");
             try {
@@ -96,13 +102,13 @@ public class UsersServlet extends HttpServlet {
             if ((req.getParameter("remove") != null) && (!req.getParameter("remove").equals(""))) {
 
                 int id = Integer.parseInt(req.getParameter("remove"));
-                UserDaoService userDaoService = new UserDaoService();
+//                UserDaoService userDaoService = new UserDaoService();
                 userDaoService.removeById(id);
             } else if (req.getParameter("edit") != null && !req.getParameter("edit").equals("")) {
 
                 int id = Integer.valueOf(req.getParameter("edit"));
                 User user = new User();
-                UserDaoService userDaoService = new UserDaoService();
+//                UserDaoService userDaoService = new UserDaoService();
 
                 user.setLogin(req.getParameter("login"));
                 user.setFirstName(req.getParameter("firstname"));
@@ -118,7 +124,7 @@ public class UsersServlet extends HttpServlet {
 
                 int id = Integer.valueOf(req.getParameter("adminconfig"));
                 boolean isAdmin = Boolean.valueOf(req.getParameter("isadmin"));
-                UserDaoService userDaoService = new UserDaoService();
+//                UserDaoService userDaoService = new UserDaoService();
 
                 User user = userDaoService.getById(id);
                 user.setAdmin(isAdmin);

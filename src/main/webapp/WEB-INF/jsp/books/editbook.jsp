@@ -49,7 +49,7 @@
                 <label>Год издания</label>
             </td>
             <td>
-                <input type="number" name="yearpub" value="${book.yearPublishing}">
+                <input type="number" name="yearPublishing" value="${book.yearPublishing}">
             </td>
         </tr>
     </table>

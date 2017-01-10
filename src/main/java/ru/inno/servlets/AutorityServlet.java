@@ -2,6 +2,8 @@ package ru.inno.servlets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
 import ru.inno.utils.MyException;
@@ -22,10 +24,13 @@ import java.io.IOException;
  * и дальнейшее перенаправление на главную страницу.
  * @author Alexander Rudnev
  */
+@Service
 public class AutorityServlet extends HttpServlet {
 
     private static Logger logger = LoggerFactory.getLogger(AutorityServlet.class);
 
+    @Autowired
+    private UserDaoService userDaoService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,7 +66,7 @@ public class AutorityServlet extends HttpServlet {
 //            UserDaoService userDaoService = new UserDaoService();
             User user = null;
             try {
-                if((user = UserDaoService.getByLogin(req.getParameter("login"))) != null && user.getPassword().equals(pass)){
+                if((user = userDaoService.getByLogin(req.getParameter("login"))) != null && user.getPassword().equals(pass)){
                     httpSession.setAttribute("userId",user.getLogin()); // заменить на userId
                     httpSession.setAttribute("admin",user.isAdmin());
                     logger.info("user: " + httpSession.getAttribute("userId"));

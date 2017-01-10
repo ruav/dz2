@@ -1,5 +1,7 @@
 package ru.inno.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.inno.dao.UserDao;
 import ru.inno.dao.UserDaoImpl;
 import ru.inno.pojo.User;
@@ -14,28 +16,29 @@ import java.util.List;
 //@Component
 //@ComponentScan
 //@Configurable
+@Service
 public class UserDaoService {
 
-    //    @Autowired
+    @Autowired
+    private  UserDao userDao;
+//    private static UserDao userDao;
 
-    private static UserDao userDao = new UserDaoImpl();
-
-    public static User getById(int id) throws MyException {
+    public  User getById(int id) throws MyException {
         return userDao.getById(id);
     }
-    public static User getByLogin(String login) throws MyException {
+    public  User getByLogin(String login) throws MyException {
         return userDao.getByLogin(login);
     }
-    public static List<User> getAll() throws MyException {
+    public  List<User> getAll() throws MyException {
         return userDao.getAll();
     }
-    public static void removeById(int id) throws MyException {
+    public  void removeById(int id) throws MyException {
         userDao.removeById(id);
     }
-    public static void add(User user) throws MyException {
+    public  void add(User user) throws MyException {
         userDao.add(user);
     }
-    public static void updateById(User user) throws MyException {
+    public  void updateById(User user) throws MyException {
         userDao.updateById(user);
     }
 

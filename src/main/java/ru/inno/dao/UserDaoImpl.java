@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.inno.pojo.User;
 import ru.inno.utils.MyException;
 
@@ -16,10 +17,11 @@ import java.util.List;
 /**
  * @author Alexander Rudnev
  */
+@Component
 public class UserDaoImpl implements UserDao {
 
 
-    Connection connection;
+    private Connection connection;
 
     private String CREATENEWUSER = "insert into users (login, password, firstname, lastname) " +
             "values(?,?,?,?)";
@@ -29,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     private String SELECTUSERBYID = "select * from users where id = ?";
     private String REMOVEUSERBYID = "delete from users where id = ?";
 
-    private static Logger logger = LoggerFactory.getLogger(BookDaoImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public UserDaoImpl() {
         try {
@@ -160,12 +162,14 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(REMOVEUSERBYID);
 
             statement.setInt(1,id);
-            ResultSet rs =  statement.executeQuery();
-            rs.next();
+            statement.executeUpdate();
+//            ResultSet rs =  statement.executeQuery();
+//            rs.next();
 
         } catch (SQLException e) {
             logger.warn("SQLException in removeById" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in removeById");
+            logger.warn("SQL code = " + e.getErrorCode() + " SQL state = " + e.getSQLState());
+            throw new MyException("SQLException in UserDaoImpl.removeById " + e.getErrorCode() + " " + e.getSQLState());
         }
 
     }
@@ -186,6 +190,7 @@ public class UserDaoImpl implements UserDao {
 
             //            logger.info(statement.get);
 
+            logger.info("Update user: " + user.toString());
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.warn("SQLException in updateById" + Arrays.toString(e.getStackTrace()));

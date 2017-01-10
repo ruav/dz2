@@ -37,7 +37,7 @@
                     <label>Введите год издания</label>
                 </td>
                 <td>
-                    <input type="number" name="yearpub"  value="0" id="yearpub" placeholder="Введите год издания"/>
+                    <input type="number" name="yearPublishing"  value="0" id="yearpub" placeholder="Введите год издания"/>
                 </td>
             </tr>
             <tr>
