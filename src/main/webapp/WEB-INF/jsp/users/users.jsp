@@ -12,8 +12,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/js/mdl/material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="<c:url value="/js/mdl/material.min.js" />"></script>
-
+    <script type="text/javascript" src="/js/mdl/material.min.js"></script>
     <title>Список пользователей </title>
 
     <%--<style type="text/css">--%>
@@ -49,7 +48,7 @@
   <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
   <%--<%@include file="../../html/navigate.html"%>--%>
 
-  <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+  <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 100%;">
 
     <tr>
       <th class="mdl-data-table__cell--non-numeric">Логин</th>
@@ -64,18 +63,23 @@
 
     <c:forEach items="${users}" var="user">
       <tr>
-        <td class="mdl-data-table__cell--non-numeric">${user.login}</td>
+        <td class="mdl-data-table__cell--non-numeric "><a class="mdl-navigation__link" href="/users/user/${user.id}">${user.login}</a></td>
         <td class="mdl-data-table__cell--non-numeric">${user.firstName}</td>
         <td class="mdl-data-table__cell--non-numeric">${user.lastName}</td>
         <c:if test="${sessionScope.admin eq true}">
           <td class="mdl-data-table__cell--non-numeric">
-            <form method="get" action="/users">
-              <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" value="${user.id}" name="edit">Редактировать</button>
-            </form>
+            <a class="mdl-navigation__link" href="/users?edit=${user.id}">Редактировать</a>
+            <%--<form method="get" action="/users">--%>
+              <%--<button class="mdl-button mdl-js-button mdl-button--raised " type="submit" value="${user.id}" name="edit">Редактировать</button>--%>
+            <%--</form>--%>
           </td>
           <td class="mdl-data-table__cell--non-numeric">
-            <form method="post" action="/users">
-              <button type="submit" value="${user.id}" name="remove">Удалить</button>
+            <form id="remove${user.id}" method="post" action="/users" style="display:table-cell;vertical-align:center;">
+              <a class="mdl-navigation__link" href="javascript:;"
+                  onclick="document.getElementById('remove${user.id}').submit();">Удалить</a>
+              <input type="hidden" name="remove" value="${user.id}" >
+
+              <%--<button type="submit" value="${user.id}" name="remove">Удалить</button>--%>
             </form>
           </td>
           </c:if>

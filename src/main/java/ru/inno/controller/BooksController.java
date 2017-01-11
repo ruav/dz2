@@ -140,4 +140,19 @@ public class BooksController {
         modelAndView.setViewName(outString);
         return modelAndView;
     }
+
+    @RequestMapping(value = "/books/book/{id}",method = RequestMethod.GET)
+    public ModelAndView aboutUser(@PathVariable int id, ModelAndView modelAndView){
+
+        String outString = "books/bookread";
+        try {
+            modelAndView.addObject("book", bookDaoService.getById(id));
+        } catch (MyException e) {
+            outString = "error";
+        }
+
+        modelAndView.setViewName(outString);
+
+        return modelAndView;
+    }
 }

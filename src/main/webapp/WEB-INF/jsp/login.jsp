@@ -21,9 +21,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <%--<script src="${pageContext.request.contextPath}/WEB-INF/js/mdl/material.min.js"></script>--%>
     <%--<script src="<c:url value="/WEB-INF/js/mdl/material.min.js"/>"></script>--%>
-    <script src="<c:url value="/js/mdl/material.min.js" />"></script>  <!-- Работает!!! -->
+    <%--<script src="<c:url value="/js/mdl/material.min.js" />"></script>  <!-- Работает!!! -->--%>
     <%--<script src="${pageContext.request.contextPath}/resource/js/mdl/material.min.js"></script>--%>
     <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/mdl/material.min.js"></script> <!-- Работает!!! -->--%>
+    <script type="text/javascript" src="/js/mdl/material.min.js"></script> <!-- Работает!!! -->
     <%--<script src="${material_min_js}"></script>--%>
     <%--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">--%>
     <%--<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">--%>

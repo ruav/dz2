@@ -19,9 +19,12 @@
 
 
 <c:set var="userId" scope="session" value="${sessionScope.userId}"/>
-<c:if test="${not empty sessionScope.userId}">
+<c:if test="${sessionScope.admin eq false}">
+    <c:redirect url="/books"/>
+</c:if>
+<c:if test="${not empty sessionScope.userName}">
 
-    <h3>Вы зашли, как ${sessionScope.userId}</h3>
+    <h3>Вы зашли, как ${sessionScope.userName}</h3>
     <form action="/autority" method="post">
         <button type="submit" value="exit" name="exit">Выйти из текущего пользователя</button>
     </form>

@@ -14,7 +14,8 @@
          <!--<mvc:resources mapping="resources/**" location="/resources/"-->
                    <!--cache-period="31556926"/>-->
         <mvc:resources mapping="/js/**" location="/resource/js/" />
-    
+        <!--<mvc:resources mapping="/js/**" location="/WEB-INF/js" />-->
+
     
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver" >

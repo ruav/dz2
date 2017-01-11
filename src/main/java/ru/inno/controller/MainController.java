@@ -63,7 +63,8 @@ public class MainController {
             User user = null;
             try {
                 if((user = userDaoService.getByLogin(req.getParameter("login"))) != null && user.getPassword().equals(pass)){
-                    httpSession.setAttribute("userId",user.getLogin());
+                    httpSession.setAttribute("userId",user.getId());
+                    httpSession.setAttribute("userName", user.getLogin());
                     httpSession.setAttribute("admin",user.isAdmin());
                     logger.info("user: " + httpSession.getAttribute("userId"));
 

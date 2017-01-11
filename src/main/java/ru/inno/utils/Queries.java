@@ -7,7 +7,7 @@ public class Queries {
 
     public static String SELECTALLFROMTABLEBYFIELD = "select * from ? where ? = ?";
     public static String SELECTALLFROMTABLE = "select * from ?";
-
+    public static String DELETEFROMTABLEBYID = "delete from ? where id = ?";
 
 
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: student
@@ -14,8 +15,8 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Title</title>
-    <!--<script type="text/javascript" src="jquery-1.3.2.min.js"></script>-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery-3.1.1.min.js" ></script>
+<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--%>
     <%--<script src="js/2.5.3-crypto-md5.js"></script>--%>
     <script>
 
@@ -36,6 +37,7 @@
 
 </head>
 <body>
+<c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
 <form method="post" action="/users" id="form">
     <table>

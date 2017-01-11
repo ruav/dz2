@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: admin
@@ -17,6 +18,7 @@
 <%--private String author;--%>
 <%--private int yearPublishing;--%>
 <%--private String publisher;--%>
+<c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
 <form method="post" action="/books">
     <table>

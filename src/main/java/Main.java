@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, MyException {
         Book book;
 
-        BookDao bookDao = new BookDaoImpl(DBConnection.getConnection());
+        BookDao bookDao = new BookDaoImpl();
 
 
         book = bookDao.getById(1);

@@ -20,14 +20,17 @@ public class EncodingFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         String url = req.getRequestURI();
 
-        if(req.getSession().getAttribute("userId") == null && !url.endsWith("login")
+        if(req.getSession().getAttribute("userName") == null && !url.endsWith("login")
                 && !url.endsWith("register") && !url.endsWith("autority")
-                && !url.contains("error") && !url.contains("js/")) {
+                && !url.contains("error")
+                && !url.contains("js/")
+                ) {
                 resp.sendRedirect("/login");
                 return;
-        } else if(req.getSession().getAttribute("userId") != null
+        } else if(req.getSession().getAttribute("userName") != null
                 && (req.getRequestURI().endsWith("login") || req.getRequestURI().endsWith("register")
-                && !url.contains("js/"))){
+                && !url.contains("js/")
+                )){
             resp.sendRedirect("/login");
             return;
         }

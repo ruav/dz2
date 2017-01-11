@@ -21,8 +21,6 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
 
-    private Connection connection;
-
     private String CREATENEWUSER = "insert into users (login, password, firstname, lastname) " +
             "values(?,?,?,?)";
     private String UPDATEUSER = "update users set login = ?, password = ?, " +
@@ -34,20 +32,6 @@ public class UserDaoImpl implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public UserDaoImpl() {
-        try {
-            this.connection = DBConnection.getConnection();
-        } catch (MyException e) {
-//            e.printStackTrace();
-            logger.warn("Exception in constructor" + Arrays.toString(e.getStackTrace()));
-        }
-    }
-
-    public UserDaoImpl(Connection dbConnection) {
-        this.connection = dbConnection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
     }
 
 
@@ -55,11 +39,15 @@ public class UserDaoImpl implements UserDao {
     public User getById(int id) throws MyException {
         User user = new User();
 
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECTUSERBYID);
+            connection = DBConnectionPool.getConnection();
+            statement = connection.prepareStatement(SELECTUSERBYID);
 
             statement.setInt(1,id);
-            ResultSet rs =  statement.executeQuery();
+            rs =  statement.executeQuery();
             rs.next();
 
             user.setId(rs.getInt("id"));
@@ -73,6 +61,17 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in getById" + Arrays.toString(e.getStackTrace()));
             throw new MyException("SQLException in getById");
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (statement != null)
+                    statement.close();
+                if (connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
 
         return user;
@@ -82,11 +81,15 @@ public class UserDaoImpl implements UserDao {
     public User getByLogin(String login) throws MyException {
 
         User user = new User();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
         try {
-            Statement statement = connection.createStatement();
+            connection = DBConnectionPool.getConnection();
+            statement = connection.createStatement();
             String query = "select * from users where login = '" + login + "' order by login";
-            ResultSet rs =  statement.executeQuery(query);
+            rs =  statement.executeQuery(query);
             if(rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setAdmin(rs.getBoolean("admin"));
@@ -99,6 +102,17 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in getByLogin" + Arrays.toString(e.getStackTrace()));
             throw new MyException("SQLException in getByLogin");
+        }finally {
+            try{
+                if(rs != null)
+                    rs.close();
+                if(statement != null)
+                    statement.close();
+                if(connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
 
         return user;
@@ -109,10 +123,14 @@ public class UserDaoImpl implements UserDao {
 
         List<User> users = new ArrayList<>();
         String query = "";
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
         try {
-            Statement statement = connection.createStatement();
+            connection = DBConnectionPool.getConnection();
+            statement = connection.createStatement();
             query = "select * from users order by id";
-            ResultSet rs =  statement.executeQuery(query);
+            rs =  statement.executeQuery(query);
             while(rs.next()) {
                 User user = new User();
 
@@ -128,6 +146,17 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in getAll" + Arrays.toString(e.getStackTrace()));
             throw new MyException("SQLException in getAll");
+        }finally {
+            try{
+                if(rs != null)
+                    rs.close();
+                if(statement != null)
+                    statement.close();
+                if(connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
 
         return users;
@@ -135,9 +164,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) throws MyException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
         try {
-//            String query = "insert into users (login, password, firstname, lastname) values('" ;
-            PreparedStatement statement = connection.prepareStatement(CREATENEWUSER);
+            connection = DBConnectionPool.getConnection();
+//            String query = "insert into users (login, password, firstname, lastname) " ;
+            statement = connection.prepareStatement(CREATENEWUSER);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getFirstName());
@@ -150,6 +183,15 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in add" + Arrays.toString(e.getStackTrace()));
             throw new MyException("SQLException in add");
+        }finally {
+            try{
+                if(statement != null)
+                    statement.close();
+                if(connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
 
     }
@@ -158,28 +200,38 @@ public class UserDaoImpl implements UserDao {
     public void removeById(int id) throws MyException {
         User user = new User();
 
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(REMOVEUSERBYID);
+            connection = DBConnectionPool.getConnection();
+            statement = connection.prepareStatement(REMOVEUSERBYID);
 
             statement.setInt(1,id);
             statement.executeUpdate();
-//            ResultSet rs =  statement.executeQuery();
-//            rs.next();
 
         } catch (SQLException e) {
             logger.warn("SQLException in removeById" + Arrays.toString(e.getStackTrace()));
             logger.warn("SQL code = " + e.getErrorCode() + " SQL state = " + e.getSQLState());
             throw new MyException("SQLException in UserDaoImpl.removeById " + e.getErrorCode() + " " + e.getSQLState());
+        }finally {
+            try{
+                if(statement != null)
+                    statement.close();
+                if(connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
 
     }
 
     @Override
     public void updateById(User user) throws MyException {
-
-//            String query = "insert into users (login, password, firstname, lastname) values('" ;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
+            connection = DBConnectionPool.getConnection();
             statement = connection.prepareStatement(UPDATEUSER);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -195,6 +247,15 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in updateById" + Arrays.toString(e.getStackTrace()));
             throw new MyException("SQLException in updateById");
+        }finally {
+            try{
+                if(statement != null)
+                    statement.close();
+                if(connection != null)
+                    connection.close();
+            }catch (Exception e){
+
+            }
         }
     }
 }

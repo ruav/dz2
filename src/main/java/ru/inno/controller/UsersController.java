@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.inno.pojo.User;
 import ru.inno.service.UserDaoService;
@@ -137,16 +134,16 @@ public class UsersController {
             } else if (editId != 0) {
 
 //                int id = Integer.valueOf(req.getParameter("edit"));
-                User user = new User();
-//                UserDaoService userDaoService = new UserDaoService();
-
-                user.setLogin(userIn.getLogin());
-                user.setFirstName(userIn.getFirstName());
-                user.setLastName(userIn.getLastName());
-                user.setPassword(MyMath.createMD5(userIn.getPassword()));
-                user.setId(editId);
-
-                userDaoService.updateById(user);
+//                User user = new User();
+////                UserDaoService userDaoService = new UserDaoService();
+//
+//                user.setLogin(userIn.getLogin());
+//                user.setFirstName(userIn.getFirstName());
+//                user.setLastName(userIn.getLastName());
+//                user.setPassword(MyMath.createMD5(userIn.getPassword()));
+//                user.setId(editId);
+                    userIn.setId(editId);
+                userDaoService.updateById(userIn);
 
 //                req.getRequestDispatcher("users").forward(req, resp);
 //                resp.sendRedirect("/users");
@@ -182,5 +179,20 @@ public class UsersController {
         modelAndView.setViewName(outString);
         return modelAndView;
 
+    }
+
+    @RequestMapping(value = "/users/user/{id}",method = RequestMethod.GET)
+    public ModelAndView aboutUser(@PathVariable int id, ModelAndView modelAndView){
+
+        String outString = "users/aboutuser";
+        try {
+            modelAndView.addObject("user", userDaoService.getById(id));
+        } catch (MyException e) {
+            outString = "error";
+        }
+
+        modelAndView.setViewName(outString);
+
+        return modelAndView;
     }
 }
