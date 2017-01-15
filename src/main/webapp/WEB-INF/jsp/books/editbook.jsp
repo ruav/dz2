@@ -20,7 +20,9 @@
 <%--private String publisher;--%>
 <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
-<form method="post" action="/books">
+<form method="post" action="/books/edit">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
     <table>
         <tr>
             <td>

@@ -7,11 +7,11 @@
 
     <context:component-scan base-package="ru.inno"/>
 
-    <bean id="userDao" class="ru.inno.dao.UserDaoImpl" autowire="byName" >
+    <!--<bean id="userDao" class="ru.inno.dao.UserDaoImpl" autowire="byName" >-->
 
-        <!--<property name="connection" value="#{dbConnection.connection}"></property>-->
-        <property name="connection" value="#{T(ru.inno.dao.DBConnection).getConnection()}"/>
-    </bean>
+        <!--&lt;!&ndash;<property name="connection" value="#{dbConnection.connection}"></property>&ndash;&gt;-->
+        <!--<property name="connection" value="#{T(ru.inno.dao.DBConnection).getConnection()}"/>-->
+    <!--</bean>-->
 
 
 

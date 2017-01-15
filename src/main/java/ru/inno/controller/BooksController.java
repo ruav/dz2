@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  * Created by ruav on 10.01.17.
  */
 @Controller
-public class BooksController {
+public class BooksController extends ExceptionHandlingController{
 
     @Autowired
     private BookDaoService bookDaoService;
@@ -30,11 +30,7 @@ public class BooksController {
 
 
         String outString = "books/books";
-//        HttpSession httpSession = req.getSession();
-        try {
-//        if (httpSession.getAttribute("userId") != null) {
-
-//                BookDaoService bookDaoService = new BookDaoService();
+       try {
 
             if(addbook){
                 Book book = new Book();
@@ -63,16 +59,9 @@ public class BooksController {
 
                 modelAndView.addObject("title", "Список литературы");
                 modelAndView.addObject("books", bookDaoService.getAll());
-//            System.out.println("user = " + httpSession.getAttribute("login"));
-//            System.out.println(userDaoService.getAll().toString());
-//                req.getRequestDispatcher("jsp/books/books.jsp").forward(req, resp);
             }
-//        } else
-//            req.getRequestDispatcher("/").forward(req, resp);
         } catch (MyException e) {
-//            e.printStackTrace();
-//            req.getRequestDispatcher("/error").forward(req,resp);
-            outString = "error";
+//            outString = "error";
         }
 
         modelAndView.setViewName(outString);
@@ -87,39 +76,32 @@ public class BooksController {
                 return modelAndView;
     }
 
-    @RequestMapping(value="/books", method = RequestMethod.POST)
+
+    @RequestMapping(value="/books/remove", method = RequestMethod.POST)
     public ModelAndView editBooks(
             @RequestParam(value="remove", defaultValue="0") int removeId,
-            @RequestParam(value="editbook", defaultValue="false") boolean editbookId,
-            @ModelAttribute("book") Book bookIn,
-            BindingResult  bindingResult,
             ModelAndView modelAndView){
 
-
-//        HttpSession httpSession = req.getSession();
-//        if (httpSession.getAttribute("userId") == null) {
-//            req.getRequestDispatcher("/").forward(req, resp);
-//        }
-//        String outString = "books/books";
-        String outString = "redirect:books";
-        try {
-
-            if (removeId != 0) {
-
-//                int id = Integer.parseInt(req.getParameter("remove"));
-//                BookDaoService bookDaoService = new BookDaoService();
+        String outString = "redirect:/";
+        try{
                 bookDaoService.removeById(removeId);
 //                resp.sendRedirect("/books");
-            } else if (editbookId ) {
+        }catch (MyException e){
+//            outString = "error";
+        }
 
-//                int id = Integer.valueOf(req.getParameter("id"));
+        modelAndView.setViewName(outString);
+        return modelAndView;
+    }
 
-//                BookDaoService bookDaoService = new BookDaoService();
 
-//                for(String str : req.getParameterMap().keySet()){
-//                    System.out.println(str + ": " + req.getParameter(str));
-//                }
-
+    @RequestMapping(value="/books/edit", method = RequestMethod.POST)
+    public ModelAndView editBook(@RequestParam(value="editbook", defaultValue="false") boolean editbookId,
+                                 @ModelAttribute("book") Book bookIn,
+                                 BindingResult  bindingResult,
+                                 ModelAndView modelAndView){
+        String outString = "redirect:/";
+        try {
 
                 Book book = new Book();
                 book.setId(bookIn.getId());
@@ -130,11 +112,8 @@ public class BooksController {
 
                 bookDaoService.update(book);
 
-//                resp.sendRedirect("/books");
-            }
         }catch (MyException e){
-//            e.printStackTrace();
-            outString = "error";
+//            outString = "error";
         }
 
         modelAndView.setViewName(outString);
@@ -148,7 +127,7 @@ public class BooksController {
         try {
             modelAndView.addObject("book", bookDaoService.getById(id));
         } catch (MyException e) {
-            outString = "error";
+//            outString = "error";
         }
 
         modelAndView.setViewName(outString);

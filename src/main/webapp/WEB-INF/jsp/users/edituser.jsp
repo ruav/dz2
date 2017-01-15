@@ -70,7 +70,7 @@
                 <label>Имя пользователя</label>
             </td>
             <td>
-                <input type="test" name="firstname" id="firstname" value="${user.firstName}">
+                <input type="test" name="firstName" id="firstname" value="${user.firstName}">
             </td>
         </tr>
         <tr>
@@ -78,7 +78,7 @@
                 <label>Фамилия пользователя</label>
             </td>
             <td>
-                <input type="test" name="lastname" id="lastname" value="${user.lastName}">
+                <input type="test" name="lastName" id="lastname" value="${user.lastName}">
             </td>
         </tr>
 
@@ -86,7 +86,8 @@
 
     <input type="hidden" name="edit" value="${user.id}">
     <input type="hidden" name="id" value = "${user.id}">
-
+    <input type="hidden" name="admin" value="${user.admin}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <button type="button" name="edituser" value="true" onclick = submitEdit()>Изменить</button>
     <input type="button" value="Отменить" onClick='location.href="/users"'>
 </form>

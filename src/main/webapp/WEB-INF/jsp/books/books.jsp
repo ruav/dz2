@@ -113,7 +113,7 @@
         </form>
     </c:if>
 
-    </form>
+    <%--</form>--%>
   </div>
 
   <table id="myTable" class="books tablesorter" style="width: 100%;">
@@ -149,10 +149,11 @@
             <%--</form>--%>
           </td>
           <td  class="books">
-            <form id="remove${book.id}" method="post" action="/books" style="display:table-cell;vertical-align:center;">
+            <form id="remove${book.id}" method="post" action="/books/remove" style="display:table-cell;vertical-align:center;">
                 <a  href="javascript:;"
                 onclick="document.getElementById('remove${book.id}').submit();">Удалить</a>
                 <input type="hidden" name="remove" value="${book.id}" >
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
               <%--<button type="submit" value="${book.id}" name="remove">Удалить</button>--%>
             </form>
           </td>

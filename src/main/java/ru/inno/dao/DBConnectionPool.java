@@ -1,6 +1,9 @@
 package ru.inno.dao;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +13,6 @@ import java.sql.SQLException;
  */
 public class DBConnectionPool {
 
-
     private static DataSource dataSource;
 
     private String URL = "jdbc:postgresql://localhost:5432/postgres";
@@ -19,8 +21,8 @@ public class DBConnectionPool {
     private String PASSWORD = "postgres";
 
 
-
     private DBConnectionPool() {
+
         DataSource ds = new DataSource();
         ds.setDriverClassName(DRIVERCLASSNAME);
         ds.setUrl(URL);

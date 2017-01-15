@@ -53,22 +53,40 @@
             <tr>
                 <td>
         Вы зашли, как
+
         <c:if test="${not fn:contains(requestScope['javax.servlet.forward.request_uri'], 'users/user/')}">
-            <a class="block_button" tabindex="0" href="/users/user/${sessionScope.userId}">${sessionScope.userName}</a>
+        <a class="block_button" tabindex="0" href="/users/user/${sessionScope.userId}">${pageContext.request.userPrincipal.name}</a>
         </c:if>
+        <%--<c:if test="${not fn:contains(requestScope['javax.servlet.forward.request_uri'], 'users/user/')}">--%>
+            <%--<a class="block_button" tabindex="0" href="/users/user/${sessionScope.userId}">${sessionScope.userName}</a>--%>
+        <%--</c:if>--%>
         <c:if test="${fn:contains(requestScope['javax.servlet.forward.request_uri'], 'users/user/')}">
                 ${sessionScope.userName}
         </c:if>
         <td>
+
+                <c:url var="logoutUrl" value="/logout" />
+                <form action="${logoutUrl}" method="get" id="logoutForm" style="display:table-cell;vertical-align:center;">
+                    <a class="block_button" tabindex="1" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+
+                <%--<form action="/autority" method="post" id="logoutForm">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <a class="block_button" tabindex="1" href="javascript:document.getElementById('autority').submit()">Выйти2</a>
+                    <input type="hidden" name="exit" value="true">
+                </form>--%>
+<%--
         <form id="autority" action="/autority" method="post" style="display:table-cell;vertical-align:center;">
-            <a class="block_button" tabindex="1" href="javascript:;"
-            onclick="document.getElementById('autority').submit();">Выйти</a>
+            <a class="block_button" tabindex="1" href="javascript:document.getElementById('autority').submit()">Выйти</a>
+            &lt;%&ndash;<a class="block_button" tabindex="1" href="javascript:;"&ndash;%&gt;
+            &lt;%&ndash;onclick="document.getElementById('autority').submit();">Выйти</a>&ndash;%&gt;
             <input type="hidden" name="exit" value="true">
-        <%--<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--teal-500"--%>
-            <%--type="submit" name="exit">Выйти--%>
-            <%--</button>--%>
-            <%--<button type="submit" value="exit" name="exit">Выйти</button>--%>
-        </form>
+        &lt;%&ndash;<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--teal-500"&ndash;%&gt;
+            &lt;%&ndash;type="submit" name="exit">Выйти&ndash;%&gt;
+            &lt;%&ndash;</button>&ndash;%&gt;
+            &lt;%&ndash;<button type="submit" value="exit" name="exit">Выйти</button>&ndash;%&gt;
+        </form>--%>
                 </td>
             </tr>
         </table>

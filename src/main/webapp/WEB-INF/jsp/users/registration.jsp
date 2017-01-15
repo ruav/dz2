@@ -19,6 +19,26 @@
     <%--<script src="js/2.5.3-crypto-md5.js"></script>--%>
 
     <script>
+
+    function checkPars() {
+        var login = $("#login").val();
+        var firstname = $("#firstname").val();
+        var lastname = $("#lastname").val();
+        var password = $("#password").val();
+        var cpassword = $("#password_again").val();
+
+        if (login == ''  || password    == '' || cpassword == '') {
+            alert("Please fill all fields...!!!!!!");
+        } else if (!jQuery.isEmptyObject(password) && (password.length) < 6)  {
+            alert("Password should atleast 8 character in length...!!!!!!");
+        } else if (password.localeCompare(cpassword) != 0) {
+            alert("Your passwords don't match. Try again?");
+        } else {
+            document.getElementById('registration').submit();
+        }
+
+    }
+    /*
         $(document).ready(function() {
             $("#register").click(function() {
                 var login = $("#login").val();
@@ -54,13 +74,13 @@
                 }
             });
         });
-
+*/
     </script>
 
 </head>
 <body>
-<form method="post" action="#">
-
+<form method="post" action="/register" id="registration">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <fieldset>
         <legend>Регистрация</legend>
         <table>
@@ -106,7 +126,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="button" name="register" id="register" value="Register">
+                    <input type="button" name="register" id="register" value="Register" onclick="checkPars()">
 
                     <!--<button type="submit" id="register" name="submit" value="register">Подтвердить</button>-->
                 </td>

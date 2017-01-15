@@ -78,6 +78,7 @@
               <a class="mdl-navigation__link" href="javascript:;"
                   onclick="document.getElementById('remove${user.id}').submit();">Удалить</a>
               <input type="hidden" name="remove" value="${user.id}" >
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
               <%--<button type="submit" value="${user.id}" name="remove">Удалить</button>--%>
             </form>
@@ -97,7 +98,9 @@
               </c:if>
               >Администратор<Br>
               <input  type="hidden" name="adminconfig" value="${user.id}" >
-                <%--<button type="submit" value="${user.id}" name="adminconfig">Изменить</button>--%>
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+            <%--<button type="submit" value="${user.id}" name="adminconfig">Изменить</button>--%>
             </form>
           </td>
       </tr>
