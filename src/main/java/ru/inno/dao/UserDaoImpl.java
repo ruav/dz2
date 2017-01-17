@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
         }
 
         em.getTransaction().commit();
-
+        em.close();
         return user;
     }
 
@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
         List<UserEntity> userEntities = q.getResultList();
 
         user = userEntities.get(0).getUser();
-
+        em.close();
         return user;
     }
 
@@ -94,7 +94,7 @@ public class UserDaoImpl implements UserDao {
             users.add(ue.getUser());
             System.out.println(ue.getUser().toString());
         }
-
+        em.close();
         return users;
     }
 
@@ -112,7 +112,7 @@ public class UserDaoImpl implements UserDao {
         em.getTransaction().begin();
         em.persist(userE);
         em.getTransaction().commit();
-
+        em.close();
 
     }
 
@@ -124,7 +124,7 @@ public class UserDaoImpl implements UserDao {
         em.getTransaction().begin();
         em.remove(user);
         em.getTransaction().commit();
-
+        em.close();
     }
 
     @Override
@@ -134,12 +134,14 @@ public class UserDaoImpl implements UserDao {
         UserEntity userE = em.find(UserEntity.class, user.getId());
 
         em.getTransaction().begin();
+
         userE.setLogin(user.getLogin());
         userE.setPassword(user.getPassword());
         userE.setFirstName(user.getFirstName());
         userE.setLastName(user.getLastName());
         userE.setAdmin(user.isAdmin());
-        em.getTransaction().commit();
 
+        em.getTransaction().commit();
+        em.close();
     }
 }

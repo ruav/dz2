@@ -54,7 +54,7 @@ public class BookDaoImpl implements BookDao {
 
         em.getTransaction().commit();
 
-
+        em.close();
         return book;
     }
 
@@ -72,7 +72,7 @@ public class BookDaoImpl implements BookDao {
             books.add(be.getBook());
 //            System.out.println(be.getBook().toString());
         }
-
+        em.close();
         return books;
     }
 
@@ -91,7 +91,7 @@ public class BookDaoImpl implements BookDao {
             books.add(be.getBook());
 //            System.out.println(be.getBook().toString());
         }
-
+        em.close();
         return books;
     }
 
@@ -110,7 +110,7 @@ public class BookDaoImpl implements BookDao {
 //            System.out.println(be.getBook().toString());
         }
 
-
+        em.close();
 
         return books;
     }
@@ -130,7 +130,7 @@ public class BookDaoImpl implements BookDao {
 //            System.out.println(be.getBook().toString());
         }
 
-
+        em.close();
 
         return books;
     }
@@ -209,7 +209,7 @@ public class BookDaoImpl implements BookDao {
 //        em.getTransaction().commit();
 //
 
-
+        em.close();
 
         return books;
     }
@@ -223,7 +223,7 @@ public class BookDaoImpl implements BookDao {
         em.getTransaction().begin();
         em.remove(book);
         em.getTransaction().commit();
-
+        em.close();
     }
 
     @Override
@@ -241,7 +241,7 @@ public class BookDaoImpl implements BookDao {
         em.persist(bookE);
         em.getTransaction().commit();
 
-
+        em.close();
     }
 
     @Override
@@ -258,6 +258,6 @@ public class BookDaoImpl implements BookDao {
             bookE.setTitle(book.getTitle());
             bookE.setPublisher(book.getPublisher());
         em.getTransaction().commit();
-
+        em.close();
     }
 }
