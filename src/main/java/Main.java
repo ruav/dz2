@@ -1,21 +1,5 @@
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.inno.Entity.UserEntity;
-import ru.inno.dao.BookDao;
-import ru.inno.dao.BookDaoImpl;
-import ru.inno.dao.DBConnection;
-import ru.inno.pojo.Book;
 import ru.inno.utils.MyException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import java.sql.SQLException;
 
 /**

@@ -1,11 +1,6 @@
 package ru.inno;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.stereotype.Component;
-import ru.inno.Entity.UserEntity;
+import ru.inno.entity.UserEntity;
 import ru.inno.utils.MyException;
 
 import javax.persistence.EntityManager;
@@ -13,7 +8,6 @@ import javax.persistence.EntityManager;
 //import javax.persistence.Persistence;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import java.sql.SQLException;
 
 /**

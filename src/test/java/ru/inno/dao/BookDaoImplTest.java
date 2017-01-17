@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 /**
  * @author Alexander Rudnev
  */
+
+
 @Ignore
 public class BookDaoImplTest {
 

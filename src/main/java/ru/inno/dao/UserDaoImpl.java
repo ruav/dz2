@@ -3,12 +3,14 @@ package ru.inno.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import ru.inno.entity.UserEntity;
 import ru.inno.pojo.User;
 import ru.inno.utils.MyException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,14 +22,8 @@ import java.util.List;
 @Component
 public class UserDaoImpl implements UserDao {
 
-
-    private String CREATENEWUSER = "insert into users (login, password, firstname, lastname) " +
-            "values(?,?,?,?)";
-    private String UPDATEUSER = "update users set login = ?, password = ?, " +
-            "firstname = ?, lastname = ?, admin = ? " +
-            " where id = ?";
-    private String SELECTUSERBYID = "select * from users where id = ?";
-    private String REMOVEUSERBYID = "delete from users where id = ?";
+    @Autowired
+    private EntityManagerFactory emf;
 
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
@@ -38,41 +34,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getById(int id) throws MyException {
         User user = new User();
+//        ApplicationContext aptx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        EntityManagerFactory emf = (EntityManagerFactory) aptx.getBean("entityManagerFactory");
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("base");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            connection = DBConnectionPool.getConnection();
-            statement = connection.prepareStatement(SELECTUSERBYID);
+        UserEntity emp = (UserEntity) em.find(UserEntity.class, id);
 
-            statement.setInt(1,id);
-            rs =  statement.executeQuery();
-            rs.next();
-
-            user.setId(rs.getInt("id"));
-            user.setAdmin(rs.getBoolean("admin"));
-            user.setLogin(rs.getString("login"));
-            user.setPassword(rs.getString("password"));
-            user.setFirstName(rs.getString("firstname"));
-            user.setLastName(rs.getString("lastname"));
-
-
-        } catch (SQLException e) {
-            logger.warn("SQLException in getById" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in getById");
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (statement != null)
-                    statement.close();
-                if (connection != null)
-                    connection.close();
-            }catch (Exception e){
-
-            }
+        if(emp != null) {
+            user = emp.getUser();
         }
+
+        em.getTransaction().commit();
 
         return user;
     }
@@ -81,39 +55,13 @@ public class UserDaoImpl implements UserDao {
     public User getByLogin(String login) throws MyException {
 
         User user = new User();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
 
-        try {
-            connection = DBConnectionPool.getConnection();
-            statement = connection.createStatement();
-            String query = "select * from users where login = '" + login + "' order by login";
-            rs =  statement.executeQuery(query);
-            if(rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setAdmin(rs.getBoolean("admin"));
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setLastName(rs.getString("lastname"));
-            }
+        Query q = em.createQuery("SELECT b FROM UserEntity b WHERE b.login = :custName", UserEntity.class).setParameter("custName", login);
+        List<UserEntity> userEntities = q.getResultList();
 
-        } catch (SQLException e) {
-            logger.warn("SQLException in getByLogin" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in getByLogin");
-        }finally {
-            try{
-                if(rs != null)
-                    rs.close();
-                if(statement != null)
-                    statement.close();
-                if(connection != null)
-                    connection.close();
-            }catch (Exception e){
-
-            }
-        }
+        user = userEntities.get(0).getUser();
 
         return user;
     }
@@ -122,41 +70,29 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAll() throws MyException {
 
         List<User> users = new ArrayList<>();
-        String query = "";
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet rs = null;
-        try {
-            connection = DBConnectionPool.getConnection();
-            statement = connection.createStatement();
-            query = "select * from users order by id";
-            rs =  statement.executeQuery(query);
-            while(rs.next()) {
-                User user = new User();
 
-                user.setId(rs.getInt("id"));
-                user.setAdmin(rs.getBoolean("admin"));
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setLastName(rs.getString("lastname"));
 
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            logger.warn("SQLException in getAll" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in getAll");
-        }finally {
-            try{
-                if(rs != null)
-                    rs.close();
-                if(statement != null)
-                    statement.close();
-                if(connection != null)
-                    connection.close();
-            }catch (Exception e){
+//        ApplicationContext aptx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        EntityManagerFactory emf = (EntityManagerFactory) aptx.getBean("entityManagerFactory");
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("base");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
 
-            }
+//        TypedQuery<BookEntity> query = em.createQuery("select e from books e", BookEntity.class);
+//        TypedQuery<BookEntity> query = em.createQuery("select e from books e", BookEntity.class);
+//
+//        List<BookEntity> bookEntities = query.getResultList();
+
+
+//        Query query = em.createQuery("SELECT e FROM books e", BookEntity.class);
+//        TypedQuery<BookEntity> query = em.createQuery("select id, title, author, publisher, yearpublishing from books", BookEntity.class);
+//        List<BookEntity> bookEntities = (List<BookEntity>) query.getResultList();
+        Query q = em.createQuery("select b from UserEntity b", UserEntity.class);
+        List<UserEntity> userEntities = q.getResultList();
+
+        for(UserEntity ue : userEntities){
+            users.add(ue.getUser());
+            System.out.println(ue.getUser().toString());
         }
 
         return users;
@@ -164,98 +100,46 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) throws MyException {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        EntityManager em = emf.createEntityManager();
+        UserEntity userE = new UserEntity();
 
-        try {
-            connection = DBConnectionPool.getConnection();
-//            String query = "insert into users (login, password, firstname, lastname) " ;
-            statement = connection.prepareStatement(CREATENEWUSER);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getFirstName());
-            statement.setString(4, user.getLastName());
+        userE.setLogin(user.getLogin());
+        userE.setPassword(user.getPassword());
+        userE.setFirstName(user.getFirstName());
+        userE.setLastName(user.getLastName());
+        userE.setAdmin(user.isAdmin());
 
-//            logger.info(statement.get);
+        em.getTransaction().begin();
+        em.persist(userE);
+        em.getTransaction().commit();
 
-            statement.execute();
-
-        } catch (SQLException e) {
-            logger.warn("SQLException in add" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in add");
-        }finally {
-            try{
-                if(statement != null)
-                    statement.close();
-                if(connection != null)
-                    connection.close();
-            }catch (Exception e){
-
-            }
-        }
 
     }
 
     @Override
     public void removeById(int id) throws MyException {
-        User user = new User();
+        EntityManager em = emf.createEntityManager();
+        UserEntity user = em.find(UserEntity.class, id);
 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DBConnectionPool.getConnection();
-            statement = connection.prepareStatement(REMOVEUSERBYID);
-
-            statement.setInt(1,id);
-            statement.executeUpdate();
-
-        } catch (SQLException e) {
-            logger.warn("SQLException in removeById" + Arrays.toString(e.getStackTrace()));
-            logger.warn("SQL code = " + e.getErrorCode() + " SQL state = " + e.getSQLState());
-            throw new MyException("SQLException in UserDaoImpl.removeById " + e.getErrorCode() + " " + e.getSQLState());
-        }finally {
-            try{
-                if(statement != null)
-                    statement.close();
-                if(connection != null)
-                    connection.close();
-            }catch (Exception e){
-
-            }
-        }
+        em.getTransaction().begin();
+        em.remove(user);
+        em.getTransaction().commit();
 
     }
 
     @Override
     public void updateById(User user) throws MyException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DBConnectionPool.getConnection();
-            statement = connection.prepareStatement(UPDATEUSER);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getFirstName());
-            statement.setString(4, user.getLastName());
-            statement.setBoolean(5, user.isAdmin());
-            statement.setInt(6, user.getId());
 
-            //            logger.info(statement.get);
+        EntityManager em = emf.createEntityManager();
+        UserEntity userE = em.find(UserEntity.class, user.getId());
 
-            logger.info("Update user: " + user.toString());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.warn("SQLException in updateById" + Arrays.toString(e.getStackTrace()));
-            throw new MyException("SQLException in updateById");
-        }finally {
-            try{
-                if(statement != null)
-                    statement.close();
-                if(connection != null)
-                    connection.close();
-            }catch (Exception e){
+        em.getTransaction().begin();
+        userE.setLogin(user.getLogin());
+        userE.setPassword(user.getPassword());
+        userE.setFirstName(user.getFirstName());
+        userE.setLastName(user.getLastName());
+        userE.setAdmin(user.isAdmin());
+        em.getTransaction().commit();
 
-            }
-        }
     }
 }

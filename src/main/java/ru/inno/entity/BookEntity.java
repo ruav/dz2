@@ -1,4 +1,6 @@
-package ru.inno.Entity;
+package ru.inno.entity;
+
+import ru.inno.pojo.Book;
 
 import javax.persistence.*;
 
@@ -18,7 +20,7 @@ public class BookEntity {
 //    @GeneratedValue(generator="increment")
 //    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id", unique=true, nullable=false)
-    private int id;
+    private long id;
 
     @Column(name="title")
     private String title;
@@ -35,7 +37,7 @@ public class BookEntity {
     public BookEntity() {
     }
 
-    public BookEntity(int id, String title, String author, int yearPublishing, String publisher) {
+    public BookEntity(long id, String title, String author, int yearPublishing, String publisher) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -43,11 +45,11 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -81,5 +83,27 @@ public class BookEntity {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    @Override
+    public String toString() {
+        return "BookEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", yearPublishing=" + yearPublishing +
+                ", publisher='" + publisher + '\'' +
+                '}';
+    }
+
+    public Book getBook(){
+        Book book = new Book();
+        book.setId(getId());
+        book.setAuthor(getAuthor());
+        book.setPublisher(getPublisher());
+        book.setTitle(getTitle());
+        book.setYearPublishing(getYearPublishing());
+
+        return book;
     }
 }

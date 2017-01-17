@@ -8,7 +8,7 @@ public class Book {
 //    Название, имя автора, год издания, издательство
 
 
-    private int id;
+    private long id;
     private String title;
     private String author;
     private int yearPublishing;
@@ -59,11 +59,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -1,14 +1,8 @@
-package ru.inno.Entity;
+package ru.inno.entity;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.stereotype.Component;
-import ru.inno.pojo.Book;
+import ru.inno.pojo.User;
 
 import javax.persistence.*;
-
-import static javax.persistence.GenerationType.AUTO;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 /**
  * Created by ruav on 16.01.17.
@@ -24,7 +18,7 @@ public class UserEntity {
 //    @GeneratedValue(generator="increment")
 //    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id", unique=true, nullable=false)
-    Long id;
+    int id;
 
     @Column(name="login")
     String login;
@@ -44,7 +38,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String login, String firstName, String lastName, Boolean admin, String password) {
+    public UserEntity(int id, String login, String firstName, String lastName, Boolean admin, String password) {
         this.id = id;
         this.login = login;
         this.firstName = firstName;
@@ -53,11 +47,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -111,5 +105,19 @@ public class UserEntity {
                 ", admin=" + admin +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public User getUser(){
+        User user = new User();
+
+        user.setLogin(getLogin());
+        user.setAdmin(getAdmin());
+        user.setFirstName(getFirstName());
+        user.setLastName(getLastName());
+        user.setFirstName(getFirstName());
+        user.setPassword(getPassword());
+        user.setId(getId());
+
+        return user;
     }
 }
