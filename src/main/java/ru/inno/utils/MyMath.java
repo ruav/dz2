@@ -1,7 +1,6 @@
 package ru.inno.utils;
 
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;

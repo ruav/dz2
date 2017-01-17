@@ -1,31 +1,33 @@
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.jpa.HibernatePersistenceProvider;
+package ru.inno;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.inno.Entity.UserEntity;
-import ru.inno.dao.BookDao;
-import ru.inno.dao.BookDaoImpl;
-import ru.inno.dao.DBConnection;
-import ru.inno.pojo.Book;
 import ru.inno.utils.MyException;
 
 import javax.persistence.EntityManager;
+//import javax.persistence.EntityManagerFactory;
+//import javax.persistence.Persistence;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.sql.SQLException;
 
 /**
- * @author Alexander Rudnev
+ * Created by ruav on 16.01.17.
  */
 
+//@Component
 public class Main {
 
 //    @PersistenceContext
-//    static EntityManager em;
+//    @Autowired
+//    @Qualifier("entityManagerFactory")
+//    @Autowired
+//    private static EntityManagerFactory emf;
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, MyException {
 //        Book book;
@@ -41,13 +43,35 @@ public class Main {
 
 //        EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("base");
 //        em = managerFactory.createEntityManager();
+
+
+//        try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
+//            appCtx.load("file:src/main/webapp/WEB-INF/security-context.xml",
+//                    "file:src/main/webapp/WEB-INF/students-servlet.xml");
+//            appCtx.refresh();
 //
-//        em.getTransaction().begin();
+//            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+//            StudentService bookService = appCtx.getBean(StudentServiceImpl.class);
+//            System.out.println();
+//        }
+
+//        GenericXmlApplicationContext aptx = new GenericXmlApplicationContext();
 //
-//        UserEntity emp = (UserEntity) em.find(UserEntity.class, new Long(1));
-//        System.out.println(emp.toString());
+//        aptx.load("security-context.xml",
+//                    "file:src/main/webapp/META-INF/persistence.xml");
+//        aptx.refresh();
 //
-//        em.getTransaction().commit();
+//        EntityManagerFactory emf = aptx.getBean(EntityManagerFactory.class);
+//
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("base");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        UserEntity emp = (UserEntity) em.find(UserEntity.class, new Long(1));
+        System.out.println(emp.toString());
+
+        em.getTransaction().commit();
 
 /*
 
@@ -86,6 +110,9 @@ public class Main {
         session.close();
 */
 
-
     }
+
+//    public Main(EntityManagerFactory emf) {
+//        this.emf = emf;
+//    }
 }

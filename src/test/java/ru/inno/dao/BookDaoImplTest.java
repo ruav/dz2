@@ -20,7 +20,7 @@ public class BookDaoImplTest {
     @Ignore
     @Before
     public void init() throws SQLException, ClassNotFoundException {
-        bookDao = new BookDaoImpl(DBConnection.getConnection());
+//        bookDao = new BookDaoImpl(DBConnection.getConnection());
     }
 
 

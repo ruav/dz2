@@ -3,12 +3,17 @@ package ru.inno.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.inno.Entity.BookEntity;
+import ru.inno.Entity.UserEntity;
 import ru.inno.pojo.Book;
 import ru.inno.utils.MyException;
 import ru.inno.utils.Queries;
 
+import javax.persistence.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +37,9 @@ public class BookDaoImpl implements BookDao {
     private String CREATENEWBOOK = "insert into books (title, author, yearpub, publisher) " +
             "values(?,?,?,?)";
 
+    @Autowired
+    private EntityManagerFactory emf;
+
 
     private static Logger logger = LoggerFactory.getLogger(BookDaoImpl.class);
 
@@ -51,6 +59,30 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getById(int id) throws MyException {
 
+        Book book = new Book();
+//        ApplicationContext aptx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        EntityManagerFactory emf = (EntityManagerFactory) aptx.getBean("entityManagerFactory");
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("base");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        BookEntity emp = (BookEntity) em.find(BookEntity.class, id);
+        System.out.println("\r\n\r\n" + "BookEntity = " + emp.toString() + "\r\n\r\n");
+
+        if(emp != null) {
+//            System.out.println();
+            book.setId(id);
+            book.setAuthor(emp.getAuthor());
+            book.setPublisher(emp.getPublisher());
+            book.setTitle(emp.getTitle());
+            book.setYearPublishing(emp.getYearPublishing());
+        }
+
+        em.getTransaction().commit();
+
+
+
+        /*
         Book book = new Book();
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -87,7 +119,7 @@ public class BookDaoImpl implements BookDao {
                 logger.warn("SQLException in getById" + Arrays.toString(e.getStackTrace()));
             }
         }
-
+*/
         return book;
     }
 
@@ -268,8 +300,27 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Book> getAll() throws MyException {
         List<Book> books = new ArrayList<>();
+/*
+
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("from books", Book.class);
+//        query.set setResultTransformer(Transformers.aliasToBean(LogEntry.class))
+//        ArrayList<LogEntry> entries = (ArrayList<LogEntry>) query.getResultList();
+
+        listBook = query.getResultList();
+//        books = em.createQuery("from books").getResultList();
+        return listBook;*/
+//
+//        UserEntity emp = (UserEntity) em.find(UserEntity.class, new Long(1));
+//        System.out.println(emp.toString());
+//
+//        em.getTransaction().commit();
+//
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;

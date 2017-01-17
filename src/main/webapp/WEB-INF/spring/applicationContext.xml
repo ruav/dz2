@@ -9,8 +9,8 @@
 
     <!--<bean id="userDao" class="ru.inno.dao.UserDaoImpl" autowire="byName" >-->
 
-        <!--&lt;!&ndash;<property name="connection" value="#{dbConnection.connection}"></property>&ndash;&gt;-->
-        <!--<property name="connection" value="#{T(ru.inno.dao.DBConnection).getConnection()}"/>-->
+    <!--&lt;!&ndash;<property name="connection" value="#{dbConnection.connection}"></property>&ndash;&gt;-->
+    <!--<property name="connection" value="#{T(ru.inno.dao.DBConnection).getConnection()}"/>-->
     <!--</bean>-->
 
 
@@ -21,22 +21,58 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!--<property name="configLocation" value="classpath:./"/>-->
+        <property name="persistenceUnitName" value="base"/>
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+        <!--<property name="configLocation" value="classpath*:META-INF/persistence.xml"/>-->
+        <!--&lt;!&ndash;<property name="persistenceUnitName" value="base"/>&ndash;&gt;-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+
+        <!--&lt;!&ndash;<property name="JpaVendorAdapter">&ndash;&gt;-->
+        <!--&lt;!&ndash;<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL94Dialect"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="showSql" value="true" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="generateDdl" value="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="jpaProperties">&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; set extra properties here, e.g. for Hibernate: &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<props>&ndash;&gt;-->
+        <!--&lt;!&ndash;<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>&ndash;&gt;-->
+        <!--&lt;!&ndash;</props>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+    </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="true"/>
+        <property name="generateDdl" value="true"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.H2Dialect"/>
+    </bean>
+
+    <!--<bean id="main" class="ru.inno.Main" >-->
+    <!--<constructor-arg name="emf" ref="entityManagerFactory"/>-->
+
+    <!--</bean>-->
+
     <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
-        <!--<property name="staticMethod" value="ru.inno.dao.DBConnectionPool.setDataSource"/>-->
-        <!--<property name="arguments">-->
-            <!--<list>-->
-                <!--<ref bean="dataSource"/>-->
-            <!--</list>-->
-        <!--</property>-->
+    <!--<property name="staticMethod" value="ru.inno.dao.DBConnectionPool.setDataSource"/>-->
+    <!--<property name="arguments">-->
+    <!--<list>-->
+    <!--<ref bean="dataSource"/>-->
+    <!--</list>-->
+    <!--</property>-->
     <!--</bean>-->
 
     <context:property-placeholder location="classpath*:jdbc.properties"/>
 
     <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
-        <!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
-        <!--<property name="url" value="${jdbc.url}"/>-->
-        <!--<property name="username" value="${jdbc.username}"/>-->
-        <!--<property name="password" value="${jdbc.password}"/>-->
+    <!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
+    <!--<property name="url" value="${jdbc.url}"/>-->
+    <!--<property name="username" value="${jdbc.username}"/>-->
+    <!--<property name="password" value="${jdbc.password}"/>-->
     <!--</bean>-->
 
     <!--<bean id="dbConnection" class="ru.inno.dao.DBConnection"></bean>-->
