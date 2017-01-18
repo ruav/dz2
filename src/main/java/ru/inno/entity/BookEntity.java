@@ -20,7 +20,7 @@ public class BookEntity {
 //    @GeneratedValue(generator="increment")
 //    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id", unique=true, nullable=false)
-    private long id;
+    private int id;
 
     @Column(name="title")
     private String title;
@@ -37,7 +37,7 @@ public class BookEntity {
     public BookEntity() {
     }
 
-    public BookEntity(long id, String title, String author, int yearPublishing, String publisher) {
+    public BookEntity(int id, String title, String author, int yearPublishing, String publisher) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -45,11 +45,11 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
