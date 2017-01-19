@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 
 
-@Ignore
+//@Ignore
 @ContextConfiguration({
 //        "file:src/main/webapp/WEB-INF/library-servlet.xml",
 //        "file:src/main/webapp/WEB-INF/security-context.xml",
@@ -70,7 +70,6 @@ public class BookDaoServiceTest {
         List<Book> books = bookDaoService.getByYear(1987);
         logger.debug(books.toString());
         assert(books.size() != 0);
-
 
     }
 

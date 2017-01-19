@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.inno.dao.BookDao;
 import ru.inno.dao.BookDaoImpl;
+import ru.inno.dao.BookRepository;
 import ru.inno.pojo.Book;
 import ru.inno.utils.MyException;
 
@@ -17,10 +18,14 @@ public class BookDaoService {
 
     @Autowired
     private BookDao bookDao;
+//
+//    @Autowired
+//    private BookRepository bookRepository;
 
 //    private static BookDao bookDao;
 
     public Book getById(int id) throws MyException {
+//        return bookRepository.getById(id).getBook();
         return bookDao.getById(id);
     }
 
