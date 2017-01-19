@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * Created by ruav on 17.01.17.
  */
 
-@Ignore
+//@Ignore
 @ContextConfiguration({
 //        "file:src/main/webapp/WEB-INF/library-servlet.xml",
 //        "file:src/main/webapp/WEB-INF/security-context.xml",
@@ -57,12 +57,25 @@ public class UserDaoServiceTest {
 
     @Test
     public void add() throws Exception {
+        User user = new User();
+        user.setLogin("Temp");
+        user.setPassword("1234567890");
+        userDaoService.add(user);
 
+        System.out.println(userDaoService.getByLogin("Temp"));
+        assert(userDaoService.getByLogin("Temp").getId()!=0);
     }
 
     @Test
     public void updateById() throws Exception {
+        User user = userDaoService.getById(49);
+        user.setLogin("Broruav");
+        userDaoService.updateById(user);
 
+        user = userDaoService.getById(49);
+        System.out.println(user.toString());
+
+        assert("Broruav".equals(user.getLogin()));
     }
 
 }

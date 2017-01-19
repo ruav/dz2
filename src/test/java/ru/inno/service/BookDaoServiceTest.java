@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.inno.pojo.Book;
 
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import static org.junit.Assert.*;
 
@@ -77,7 +78,12 @@ public class BookDaoServiceTest {
     public void getAll() throws Exception {
         System.out.println("getAll");
         List<Book> books = bookDaoService.getAll();
-        logger.debug(books.toString());
+
+        for(Book book : books){
+            System.out.println(book);
+        }
+
+        logger.info(books.toString());
         assert(books.size() != 0);
     }
 
@@ -97,11 +103,15 @@ public class BookDaoServiceTest {
     @Test
     public void update() throws Exception {
 
-        Book book = bookDaoService.getById(71);
 
+
+
+        Book book = bookDaoService.getById(71);
+        System.out.println(book.toString());
         book.setTitle("2345");
         bookDaoService.update(book);
         logger.debug(bookDaoService.getById(71).toString());
+        System.out.println(bookDaoService.getById(71).toString());
         assert (bookDaoService.getById(71).getTitle().equals("2345"));
     }
 
