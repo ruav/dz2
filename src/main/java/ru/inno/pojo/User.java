@@ -1,5 +1,8 @@
 package ru.inno.pojo;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Alexander Rudnev
  */
@@ -12,6 +15,7 @@ public class User {
     private String firstName;
     private String lastName;
     private int version;
+    private Set<Book> books;
 
     public User() {
         login = "";
@@ -26,6 +30,16 @@ public class User {
         this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(String login, String password, boolean admin, String firstName, String lastName,int version, Set<Book> books) {
+        this.login = login;
+        this.password = password;
+        this.admin = admin;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.version = version;
+        this.books = books;
     }
 
     public int getId() {
@@ -82,6 +96,14 @@ public class User {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     @Override

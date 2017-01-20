@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import ru.inno.pojo.User;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +26,7 @@ import static org.junit.Assert.*;
         "file:src/main/webapp/WEB-INF/spring/applicationContext.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 public class UserDaoServiceTest {
 
     @Autowired
@@ -47,7 +51,13 @@ public class UserDaoServiceTest {
 
     @Test
     public void getAll() throws Exception {
+        List<User> users = userDaoService.getAll();
 
+        for(User user : users){
+            System.out.println(user.getBooks().toString());
+        }
+
+        System.out.println(userDaoService.getAll());
     }
 
     @Test

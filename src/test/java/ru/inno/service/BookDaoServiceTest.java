@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import ru.inno.pojo.Book;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import static org.junit.Assert.*;
         "file:src/main/webapp/WEB-INF/spring/applicationContext.xml"
         })
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 public class BookDaoServiceTest {
 
     @Autowired

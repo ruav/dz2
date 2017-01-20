@@ -1,8 +1,10 @@
 package ru.inno.entity;
 
+import ru.inno.pojo.Book;
 import ru.inno.pojo.User;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by ruav on 16.01.17.
@@ -40,6 +42,16 @@ public class UserEntity {
     @Column(name="version")
     @Version
     private int version;
+
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name="readbooks",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+
+    )
+    private Set<BookEntity> books;
 
 
     public UserEntity() {
@@ -118,6 +130,14 @@ public class UserEntity {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public Set<BookEntity> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<BookEntity> books) {
+        this.books = books;
     }
 
     @Override

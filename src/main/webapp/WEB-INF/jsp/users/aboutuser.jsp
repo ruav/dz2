@@ -70,11 +70,37 @@
             </td>
         </tr>
         <tr>
-            <td class="mdl-data-table__cell--non-numeric">
-                <label>Прочитанные книги</label>
-            </td>
-            <td class="mdl-data-table__cell--non-numeric">
-                <output type="test" name="lastname" id="readBooks" >Здесь будет много книг</output>
+            <td>Прочитанные книги:</td>
+        </tr>
+        <tr>
+            <%--<td class="mdl-data-table__cell--non-numeric">--%>
+                <%--<label>Прочитанные книги</label>--%>
+            <%--</td>--%>
+            <%--<td class="mdl-data-table__cell--non-numeric">--%>
+                <%--<output type="test" name="lastname" id="readBooks" >Здесь будет много книг</output>--%>
+            <%--</td>--%>
+            <%----%>
+            <td colspan="4">
+            <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+                <tr >
+                    <td class="mdl-data-table__cell--non-numeric">Название книги</td>
+                    <td class="mdl-data-table__cell--non-numeric">Автор</td>
+                    <td class="mdl-data-table__cell--non-numeric">Год издания</td>
+                    <td class="mdl-data-table__cell--non-numeric">Издательство</td>
+                </tr>
+
+                <c:forEach items="${user.books}" var="book">
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <a href="/books/book/${book.id}">${book.title}</a>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">${book.author}</td>
+                        <td class="mdl-data-table__cell--non-numeric">${book.yearPublishing}</td>
+                        <td class="mdl-data-table__cell--non-numeric">${book.publisher}</td>
+                    </tr>
+                </c:forEach>
+
+            </table>
             </td>
         </tr>
 
