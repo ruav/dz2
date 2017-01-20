@@ -8,6 +8,7 @@ import javax.persistence.*;
  * Created by ruav on 16.01.17.
  */
 @Entity
+@Cacheable(true)
 @Table(name = "users")
 public class UserEntity {
 
@@ -18,22 +19,28 @@ public class UserEntity {
 //    @GeneratedValue(generator="increment")
 //    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id", unique=true, nullable=false)
-    int id;
+    private int id;
 
     @Column(name="login")
-    String login;
+    private String login;
 
     @Column(name="firstname")
-    String firstName;
+    private String firstName;
 
     @Column(name="lastname")
-    String lastName;
+    private String lastName;
 
     @Column(name="admin")
-    Boolean admin;
+    private Boolean admin;
 
     @Column(name="password")
-    String password;
+    private String password;
+
+
+    @Column(name="version")
+    @Version
+    private int version;
+
 
     public UserEntity() {
     }
@@ -45,6 +52,16 @@ public class UserEntity {
         this.lastName = lastName;
         this.admin = admin;
         this.password = password;
+    }
+
+    public UserEntity(int id, String login, String firstName, String lastName, Boolean admin, String password, int version) {
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.admin = admin;
+        this.password = password;
+        this.version = version;
     }
 
     public Integer getId() {
@@ -95,6 +112,14 @@ public class UserEntity {
         this.password = password;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -117,6 +142,7 @@ public class UserEntity {
         user.setFirstName(getFirstName());
         user.setPassword(getPassword());
         user.setId(getId());
+        user.setVersion(getVersion());
 
         return user;
     }

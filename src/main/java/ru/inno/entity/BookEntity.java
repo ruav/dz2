@@ -8,6 +8,7 @@ import javax.persistence.*;
  * @author Alexander Rudnev
  */
 @Entity
+@Cacheable(true)
 @Table(name = "books")
 public class BookEntity {
 
@@ -34,6 +35,11 @@ public class BookEntity {
     @Column(name="publisher")
     private String publisher;
 
+    @Column(name="version")
+    @Version
+    private int version;
+
+
     public BookEntity() {
     }
 
@@ -43,6 +49,15 @@ public class BookEntity {
         this.author = author;
         this.yearPublishing = yearPublishing;
         this.publisher = publisher;
+    }
+
+    public BookEntity(int id, String title, String author, int yearPublishing, String publisher, int version) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.yearPublishing = yearPublishing;
+        this.publisher = publisher;
+        this.version = version;
     }
 
     public int getId() {
@@ -85,6 +100,14 @@ public class BookEntity {
         this.publisher = publisher;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "BookEntity{" +
@@ -98,11 +121,13 @@ public class BookEntity {
 
     public Book getBook(){
         Book book = new Book();
+
         book.setId(getId());
         book.setAuthor(getAuthor());
         book.setPublisher(getPublisher());
         book.setTitle(getTitle());
         book.setYearPublishing(getYearPublishing());
+        book.setVersion(getVersion());
 
         return book;
     }

@@ -103,14 +103,14 @@ public class BooksController extends ExceptionHandlingController{
         String outString = "redirect:/";
         try {
 
-                Book book = new Book();
-                book.setId(bookIn.getId());
-                book.setTitle(bookIn.getTitle());
-                book.setAuthor(bookIn.getAuthor());
-                book.setYearPublishing(bookIn.getYearPublishing());
-                book.setPublisher(bookIn.getPublisher());
-
-                bookDaoService.update(book);
+//                Book book = new Book();
+//                book.setId(bookIn.getId());
+//                book.setTitle(bookIn.getTitle());
+//                book.setAuthor(bookIn.getAuthor());
+//                book.setYearPublishing(bookIn.getYearPublishing());
+//                book.setPublisher(bookIn.getPublisher());
+//
+                bookDaoService.update(bookIn);
 
         }catch (MyException e){
 //            outString = "error";
@@ -121,7 +121,7 @@ public class BooksController extends ExceptionHandlingController{
     }
 
     @RequestMapping(value = "/books/book/{id}",method = RequestMethod.GET)
-    public ModelAndView aboutUser(@PathVariable int id, ModelAndView modelAndView){
+    public ModelAndView aboutBook(@PathVariable int id, ModelAndView modelAndView){
 
         String outString = "books/bookread";
         try {

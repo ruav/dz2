@@ -72,14 +72,16 @@ public class UsersController extends ExceptionHandlingController{
                 userDaoService.removeById(removeId);
             } else if (editId != 0) {
 
-                User user = new User();
-                user.setLogin(userIn.getLogin());
-                user.setFirstName(userIn.getFirstName());
-                user.setLastName(userIn.getLastName());
-                user.setPassword(MyMath.MD5Salt(userIn.getPassword()));
-                user.setId(editId);
-                user.setAdmin(userIn.isAdmin());
-                userDaoService.updateById(user);
+//                User user = new User();
+//                user.setLogin(userIn.getLogin());
+//                user.setFirstName(userIn.getFirstName());
+//                user.setLastName(userIn.getLastName());
+//                user.setPassword(MyMath.MD5Salt(userIn.getPassword()));
+//                user.setId(editId);
+//                user.setAdmin(userIn.isAdmin());
+//
+//
+                userDaoService.updateById(userIn);
             } else if (adminId != 0) {
                 boolean isAdmin = isadmin;
                 User user = userDaoService.getById(adminId);

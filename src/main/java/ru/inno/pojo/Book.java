@@ -13,6 +13,7 @@ public class Book {
     private String author;
     private int yearPublishing;
     private String publisher;
+    private int version;
 
     public Book() {
         title = "";
@@ -25,6 +26,14 @@ public class Book {
         this.author = author;
         this.yearPublishing = yearPublishing;
         this.publisher = publisher;
+    }
+
+    public Book(String title, String author, int yearPublishing, String publisher, int version) {
+        this.title = title;
+        this.author = author;
+        this.yearPublishing = yearPublishing;
+        this.publisher = publisher;
+        this.version = version;
     }
 
     public String getTitle() {
@@ -65,6 +74,14 @@ public class Book {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @Override

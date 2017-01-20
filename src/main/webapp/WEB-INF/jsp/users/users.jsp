@@ -98,6 +98,7 @@
               </c:if>
               >Администратор<Br>
               <input  type="hidden" name="adminconfig" value="${user.id}" >
+
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
             <%--<button type="submit" value="${user.id}" name="adminconfig">Изменить</button>--%>

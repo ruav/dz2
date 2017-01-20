@@ -51,7 +51,7 @@
                 logout-success-url="/"  />
 
 
-        <remember-me/>
+        <!--<remember-me/>-->
         <!--<csrf disabled="true"/>-->
         <csrf/>
         <!--<anonymous />-->
@@ -59,10 +59,12 @@
 
 
     <authentication-manager>
-        <authentication-provider>
+        <!--<authentication-provider >-->
+        <authentication-provider user-service-ref="customUserDetailsService">
             <password-encoder hash="md5">
             <salt-source system-wide="123456"/>
             </password-encoder>
+<!--
             <jdbc-user-service data-source-ref="dataSource"
                 users-by-username-query=
                 "select login as username, password, true as enabled
@@ -70,6 +72,7 @@
                 authorities-by-username-query=
                 "select login as username, case when admin=true then 'ROLE_ADMIN' else 'ROLE_USER' end as role
                     from users where login = ?" />
+-->
         </authentication-provider>
 
         <!--<authentication-provider>-->

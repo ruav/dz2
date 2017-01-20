@@ -1,6 +1,8 @@
 package ru.inno.service;
 
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.inno.dao.UserDao;
 import ru.inno.dao.UserDaoImpl;
@@ -23,27 +25,37 @@ import java.util.stream.StreamSupport;
 @Service
 public class UserDaoService {
 
-    @Autowired
-    private  UserDao userDao;
+//    @Autowired
+//    private  UserDao userDao;
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    @Qualifier(value = "userMapper")
+    MapperFacade mapperFacade;
+
 //    private static UserDao userDao;
 
     public  User getById(int id) throws MyException {
-        return userRepository.findById(id).getUser();
+         return mapperFacade.map (userRepository.findById(id),User.class);
+//        return userRepository.findById(id).getUser();
 //        return userDao.getById(id);
     }
     public  User getByLogin(String login) throws MyException {
-        return userRepository.findByLogin(login).getUser();
+        return mapperFacade.map(userRepository.findByLogin(login),User.class);
+//        return userRepository.findByLogin(login).getUser();
 
 //        return userDao.getByLogin(login);
     }
     public  List<User> getAll() throws MyException {
+//        return StreamSupport
+//                .stream(userRepository.findAll().spliterator(),false)
+//                .map((u)->u.getUser()).sorted((o1, o2) -> o1.getLogin().compareToIgnoreCase(o2.getLogin()))
+//                .collect(Collectors.toList());
         return StreamSupport
                 .stream(userRepository.findAll().spliterator(),false)
-                .map((u)->u.getUser())
+                .map((u)->mapperFacade.map(u,User.class)).sorted((o1, o2) -> o1.getLogin().compareToIgnoreCase(o2.getLogin()))
                 .collect(Collectors.toList());
 
 //        return userDao.getAll();
@@ -53,15 +65,18 @@ public class UserDaoService {
 //        userDao.removeById(id);
     }
     public  void add(User user) throws MyException {
-       userRepository.save(new UserEntity(
-               user.getId(),user.getLogin(),user.getFirstName(),
-               user.getLastName(),user.isAdmin(),user.getPassword()));
-//        userDao.add(user);
+        userRepository.save(mapperFacade.map(user,UserEntity.class));
+//        userRepository.save(new UserEntity(
+//               user.getId(),user.getLogin(),user.getFirstName(),
+//               user.getLastName(),user.isAdmin(),user.getPassword()));
+////        userDao.add(user);
     }
     public  void updateById(User user) throws MyException {
-        userRepository.save(new UserEntity(
-                user.getId(),user.getLogin(),user.getFirstName(),
-                user.getLastName(),user.isAdmin(),user.getPassword()));
+        userRepository.save(mapperFacade.map(user,UserEntity.class));
+
+//        userRepository.save(new UserEntity(
+//                user.getId(),user.getLogin(),user.getFirstName(),
+//                user.getLastName(),user.isAdmin(),user.getPassword(),user.getVersion()));
 //        userDao.updateById(user);
     }
 

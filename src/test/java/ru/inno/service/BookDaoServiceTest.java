@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 
 
-//@Ignore
+@Ignore
 @ContextConfiguration({
 //        "file:src/main/webapp/WEB-INF/library-servlet.xml",
 //        "file:src/main/webapp/WEB-INF/security-context.xml",

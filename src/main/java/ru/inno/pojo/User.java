@@ -11,6 +11,7 @@ public class User {
     private boolean admin;
     private String firstName;
     private String lastName;
+    private int version;
 
     public User() {
         login = "";
@@ -73,6 +74,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @Override

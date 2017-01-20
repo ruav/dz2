@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * Created by ruav on 17.01.17.
  */
 
-//@Ignore
+@Ignore
 @ContextConfiguration({
 //        "file:src/main/webapp/WEB-INF/library-servlet.xml",
 //        "file:src/main/webapp/WEB-INF/security-context.xml",

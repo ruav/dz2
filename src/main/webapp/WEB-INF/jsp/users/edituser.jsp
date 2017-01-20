@@ -84,6 +84,7 @@
 
     </table>
 
+    <input type="hidden" name="version" value="${user.version}">
     <input type="hidden" name="edit" value="${user.id}">
     <input type="hidden" name="id" value = "${user.id}">
     <input type="hidden" name="admin" value="${user.admin}">

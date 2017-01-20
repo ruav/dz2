@@ -59,6 +59,7 @@
     </table>
 
     <input type="hidden" name="id" value = "${book.id}">
+    <input type="hidden" name="version" value = "${book.version}">
 
     <button type="submit" name="editbook" value="true">Изменить</button>
     <input type="button" value="Отменить" onClick='location.href="/books"'>
