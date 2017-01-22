@@ -150,7 +150,7 @@ public class MainController extends ExceptionHandlingController{
         pass = MyMath.MD5Salt(userIn.getPassword());
 
 
-        ru.inno.pojo.User user = new ru.inno.pojo.User();
+        User user = new User();
         user.setLogin(userIn.getLogin());
         user.setLastName(userIn.getLastName());
         user.setFirstName(userIn.getFirstName());

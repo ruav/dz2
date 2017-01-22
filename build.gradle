@@ -61,5 +61,7 @@ dependencies {
     // ORIKA
     compile 'ma.glasnost.orika:orika-core:1.4.0'
 
+    compile group:'org.webjars', name: 'datatables', version: '1.10.13'
+
 }
 

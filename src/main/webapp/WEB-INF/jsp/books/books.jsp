@@ -83,18 +83,39 @@
     <%--<script src="<c:url value="/js/jqsort/jquery.tablesorter.js" />"></script>--%>
     <%--<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.1.1.min.js" />"></script>--%>
     <script type="text/javascript" src="/js/jquery/jquery-3.1.1.min.js" ></script>
-    <script type="text/javascript" src="/js/jqsort/jquery-latest.js" ></script>
-    <script type="text/javascript" src="/js/jqsort/jquery.tablesorter.js" ></script>
+    <script type="text/javascript" src="/js/jquery/jquery.dataTables.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/js/jquery/jquery.dataTables.min.css">
+
+    <%--<script type="text/javascript" src="/js/jqsort/jquery-latest.js" ></script>--%>
+    <%--<script type="text/javascript" src="/js/jqsort/jquery.tablesorter.js" ></script>--%>
     <title>Список литературы </title>
 
+
+    <%--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">--%>
+    <%--<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>--%>
+    <%--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>--%>
+
+    <%--<script>--%>
+        <%--$(document).ready(function()--%>
+            <%--{--%>
+                <%--$("#myTable").tablesorter(--%>
+                    <%--{headers: { 4: { sorter: false}, 5: {sorter: false} }}--%>
+                    <%--);--%>
+            <%--}--%>
+        <%--);--%>
+    <%--</script>--%>
+
     <script>
-        $(document).ready(function()
-            {
-                $("#myTable").tablesorter(
-                    {headers: { 4: { sorter: false}, 5: {sorter: false} }}
-                    );
-            }
-        );
+        $(document).ready(function() {
+            $("#myTable").dataTable(
+                {
+                    serverSide: false,
+                    processing: true,
+                    paging: true,
+                    pagingType: "full_numbers"
+                }
+            )
+        })
     </script>
   </head>
   <body>

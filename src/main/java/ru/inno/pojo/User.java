@@ -1,5 +1,6 @@
 package ru.inno.pojo;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,13 +16,14 @@ public class User {
     private String firstName;
     private String lastName;
     private int version;
-    private Set<Book> books;
+    private Set<Book> books ;
 
     public User() {
         login = "";
         password = "";
         firstName = "";
         lastName = "";
+        books = new HashSet<>();
     }
 
     public User(String login, String password, boolean admin, String firstName, String lastName) {
@@ -30,6 +32,7 @@ public class User {
         this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
+        books = new HashSet<>();
     }
 
     public User(String login, String password, boolean admin, String firstName, String lastName,int version, Set<Book> books) {

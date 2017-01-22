@@ -13,7 +13,14 @@
     <link rel="stylesheet" href="/js/mdl/material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script type="text/javascript" src="/js/mdl/material.min.js"></script>
+
+    <%--<script type="text/javascript" src="/js/jquery/jquery-3.1.1.min.js" ></script>--%>
+    <%--<script type="text/javascript" src="/js/jquery/jquery.dataTables.min.js" ></script>--%>
+    <%--<link rel="stylesheet" type="text/css" href="/js/jquery/jquery.dataTables.min.css">--%>
+
     <title>Список пользователей </title>
+
+
 
     <%--<style type="text/css">--%>
 
@@ -48,7 +55,7 @@
   <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
   <%--<%@include file="../../html/navigate.html"%>--%>
 
-  <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 100%;">
+  <table id="myTable" class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 100%;">
 
     <tr>
       <th class="mdl-data-table__cell--non-numeric">Логин</th>
