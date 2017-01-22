@@ -109,7 +109,7 @@ public class BookDaoService {
 //        return bookDao.getAll();
     }
     public  void removeById(int id) throws MyException {
-        bookRepository.removeById(id);
+        bookRepository.deleteById(id);
 //        bookDao.removeById(id);
     }
     public  void add(Book book) throws MyException {

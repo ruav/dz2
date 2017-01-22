@@ -2,6 +2,7 @@ package ru.inno.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.inno.entity.BookEntity;
 import ru.inno.pojo.Book;
 
@@ -20,7 +21,9 @@ public interface BookRepository  extends CrudRepository<BookEntity, Integer>{
     List<BookEntity> findByPublisher(String publisher);
     List<BookEntity> findByAuthor(String author);
     List<BookEntity> findByYearPublishing(int year);
-    long removeById(int id);
+
+    @Transactional
+    long deleteById(int id);
 
 //    List<BookEntity> findAll();
 //    void removeById(int id);

@@ -123,6 +123,7 @@
       <th class="books">Автор</th>
       <th class="books">Год издания</th>
       <th class="books">Издательство</th>
+      <th class="books">Прочитана</th>
       <c:if test="${sessionScope.admin eq true}">
         <th class="books">Редактировать книгу</th>
         <th class="books">Удалить книгу</th>
@@ -131,6 +132,7 @@
     </thead>
     <tbody>
     <c:forEach items="${books}" var="book">
+      <c:set value="${book.id}" var="bookid"/>
       <tr>
         <td class="books">
           <a href="/books/book/${book.id}">${book.title}</a>
@@ -138,6 +140,14 @@
         <td class="books">${book.author}</td>
         <td class="books">${book.yearPublishing}</td>
         <td class="books">${book.publisher}</td>
+        <td class="books">
+          <%--<c:if test="${ids.containsKey('${bookid}')}">--%>
+            <%--Прочитана--%>
+          <%--</c:if>--%>
+          <%--<c:if test="${ids.containsKey('${bookid}')}">--%>
+          <a  href="/users/user/${sessionScope.userId}/addbook/${book.id}" >Прочитал</a>
+          <%--</c:if>--%>
+        </td>
         <c:if test="${sessionScope.admin eq true}">
           <td class="books">
             <a  href="/books?edit=${book.id}" >Редактировать</a>

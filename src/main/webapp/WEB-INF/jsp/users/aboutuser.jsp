@@ -87,6 +87,7 @@
                     <td class="mdl-data-table__cell--non-numeric">Автор</td>
                     <td class="mdl-data-table__cell--non-numeric">Год издания</td>
                     <td class="mdl-data-table__cell--non-numeric">Издательство</td>
+                    <td class="mdl-data-table__cell--non-numeric">Удалить</td>
                 </tr>
 
                 <c:forEach items="${user.books}" var="book">
@@ -97,6 +98,9 @@
                         <td class="mdl-data-table__cell--non-numeric">${book.author}</td>
                         <td class="mdl-data-table__cell--non-numeric">${book.yearPublishing}</td>
                         <td class="mdl-data-table__cell--non-numeric">${book.publisher}</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <a href="/users/user/${user.id}/removebook/${book.id}">Не читал</a>
+                        </td>
                     </tr>
                 </c:forEach>
 

@@ -20,8 +20,8 @@
 
         <!--<intercept-url pattern="/login2" access="isAuthenticated()" />-->
         <intercept-url pattern="/logout" access="isFullyAuthenticated()" />
-        <intercept-url pattern="/users/*" access="isAuthenticated()" />
-        <intercept-url pattern="/books/book/*" access="isAuthenticated()" />
+        <intercept-url pattern="/users/**" access="isAuthenticated()" />
+        <intercept-url pattern="/books/book/**" access="isAuthenticated()" />
         <intercept-url pattern="/books/remove" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/books/edit" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/register" access="isAnonymous()" />

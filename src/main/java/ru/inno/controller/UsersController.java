@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.inno.pojo.Book;
 import ru.inno.pojo.User;
+import ru.inno.service.BookDaoService;
 import ru.inno.service.UserDaoService;
 import ru.inno.utils.MyException;
 import ru.inno.utils.MyMath;
@@ -23,6 +25,9 @@ public class UsersController extends ExceptionHandlingController{
 
     @Autowired
     private UserDaoService userDaoService;
+
+    @Autowired
+    private BookDaoService bookDaoService;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView getUsers(@RequestParam(name = "edit", defaultValue = "0") int id, ModelAndView modelAndView){
@@ -110,5 +115,96 @@ public class UsersController extends ExceptionHandlingController{
         modelAndView.setViewName(outString);
 
         return modelAndView;
+    }
+
+    @RequestMapping(value="/users/user/{id}/removebook/{book_id}")
+    public ModelAndView removeBook(@PathVariable int id, @PathVariable int book_id, ModelAndView modelAndView){
+        User user = new User();
+
+        try {
+            user = userDaoService.getById(id);
+        } catch (MyException e){
+//            outString = "error";
+        }
+//        System.out.println(user.getBooks().size());
+//
+//        for(Book book : user.getBooks()){
+//            System.out.println(book.toString());
+//        }
+
+//        int removeId = book_id;
+        Book removeBook = new Book();
+        for(Book book : user.getBooks()){
+            if(book.getId() == book_id){
+                removeBook = book;
+                break;
+            }
+        }
+
+        user.getBooks().remove(removeBook);
+//        System.out.println(user.getBooks().remove(removeBook));
+//        System.out.println(user.getBooks().remove(bookDaoService.getById(18)));
+//        System.out.println(user.getBooks().remove(removeBook));
+//        System.out.println(user.getBooks().size());
+
+
+        try {
+            userDaoService.updateById(user);
+//        System.out.println(userDaoService.getById(1).getBooks().toString());
+        }catch (MyException e){
+//            outString = "error";
+        }
+
+        modelAndView.setViewName("redirect:/users/user/" + id);
+//        modelAndView.setViewName("redirect:users/user"+id);
+//        modelAndView.setViewName("forward:/users");
+
+//        modelAndView;
+        return modelAndView;
+//        return new ModelAndView("redirect:users/user"+id);
+
+    }
+
+    @RequestMapping(value="/users/user/{id}/addbook/{book_id}")
+    public ModelAndView addBook(@PathVariable int id, @PathVariable int book_id, ModelAndView modelAndView){
+        User user = new User();
+
+        try {
+            user = userDaoService.getById(id);
+        } catch (MyException e){
+//            outString = "error";
+        }
+        Book addbook = new Book();
+        try {
+            addbook = bookDaoService.getById(book_id);
+        }catch (MyException e){
+            //            outString = "error";
+        }
+        if (addbook.getId() != 0) {
+            user.getBooks().add(addbook);
+        }
+
+
+//        System.out.println(user.getBooks().remove(removeBook));
+//        System.out.println(user.getBooks().remove(bookDaoService.getById(18)));
+//        System.out.println(user.getBooks().remove(removeBook));
+//        System.out.println(user.getBooks().size());
+
+
+        try {
+            userDaoService.updateById(user);
+//        System.out.println(userDaoService.getById(1).getBooks().toString());
+        }catch (MyException e){
+//            outString = "error";
+        }
+
+        modelAndView.setViewName("redirect:/books");
+//        modelAndView.setViewName("redirect:users/user"+id);
+//        modelAndView.setViewName("forward:/users");
+
+//        modelAndView;
+        return modelAndView;
+//        return new ModelAndView("redirect:users/user"+id);
+
     }
 }

@@ -5,11 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.inno.dao.UserDao;
 import ru.inno.pojo.Book;
+import ru.inno.pojo.User;
 import ru.inno.service.BookDaoService;
+import ru.inno.service.UserDaoService;
 import ru.inno.utils.MyException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ruav on 10.01.17.
@@ -20,12 +28,15 @@ public class BooksController extends ExceptionHandlingController{
     @Autowired
     private BookDaoService bookDaoService;
 
+//    @Autowired
+//    private UserDaoService userDaoService;
+
     @RequestMapping(value="/books", method = RequestMethod.GET)
     public ModelAndView getBooks(
             @RequestParam(name="addbook", defaultValue = "false") boolean addbook,
             @RequestParam(name="edit", defaultValue = "0") int editId,
             @ModelAttribute("book") Book bookIn,
-            BindingResult bindingResult,
+            BindingResult bindingResult, HttpServletRequest req,
             ModelAndView modelAndView){
 
 
@@ -59,6 +70,29 @@ public class BooksController extends ExceptionHandlingController{
 
                 modelAndView.addObject("title", "Список литературы");
                 modelAndView.addObject("books", bookDaoService.getAll());
+
+                HttpSession session = req.getSession();
+
+
+/*
+                Map<Integer, Integer> ids = new HashMap<>();
+                User user =  userDaoService.getById(
+                        Integer.parseInt(session.getAttribute("userId").toString())
+                );
+                System.out.println(user.getBooks().size());
+//                user.getBooks().stream()
+////                    .getBooks().stream()
+//                    .map((b) -> {
+//                        System.out.println(b.getId());
+//                    return ids.add(b.getId());
+//                });
+                user.getBooks()
+                        .forEach((b)->ids.put(b.getId(),1));
+//                for(Book book : user.getBooks()){
+//                    ids.add(book.getId());
+//                }
+                modelAndView.addObject("ids",ids);*/
+
             }
         } catch (MyException e) {
 //            outString = "error";
