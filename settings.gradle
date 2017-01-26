@@ -1,2 +1,4 @@
 rootProject.name = 'library'
+include 'common'
+include 'back'
 

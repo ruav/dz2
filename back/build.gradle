@@ -2,15 +2,14 @@ group 'library'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
+
 dependencies {
 
     // JUnit 4
@@ -20,11 +19,6 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
 
     // Spring core + mvc
-
-//    compile group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE'
-//    compile group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE'
-//    compile group: 'org.springframework', name: 'spring-web', version: '4.3.3.RELEASE'
-//    compile group: 'org.springframework', name: 'spring-web', version: '3.0.4.RELEASE'
     compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.3.RELEASE'
 
 
@@ -43,12 +37,6 @@ dependencies {
     providedCompile 'org.apache.tomcat:tomcat-jdbc:9.0.0.M15'
 
 
-    // Spring - security
-    compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.1.3.RELEASE'
-    compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.1.3.RELEASE'
-    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '4.1.3.RELEASE'
-    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.1.3.RELEASE'
-
     // Hibernate
     compile 'org.hibernate:hibernate-core:5.2.5.Final'
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.4.Final'
@@ -58,12 +46,15 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.1.RELEASE'
 
+
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.1.3.RELEASE'
+
+
     // ORIKA
     compile 'ma.glasnost.orika:orika-core:1.4.0'
 
-    compile group:'org.webjars', name: 'datatables', version: '1.10.13'
 
     compile project(':common')
-
 }
+
 

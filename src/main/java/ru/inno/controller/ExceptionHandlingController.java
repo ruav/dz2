@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by ruav on 15.01.17.
  */
-@ControllerAdvice
+//@ControllerAdvice
 //@Controller
 public class ExceptionHandlingController {
 

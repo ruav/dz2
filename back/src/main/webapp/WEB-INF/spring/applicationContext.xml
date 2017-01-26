@@ -15,6 +15,23 @@
     <!--</bean>-->
 
 
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <!--<property name="bookDaoService" value="ru.inno.service.BookDaoServiceImpl"/>-->
+        <property name="serviceName" value="bookDaoService"/>
+        <property name="service" ref="bookDaoServiceImpl"/>
+        <property name="serviceInterface" value="ru.inno.service.UserDaoService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <!--<property name="bookDaoService" value="ru.inno.service.BookDaoServiceImpl"/>-->
+        <property name="serviceName" value="userDaoService"/>
+        <property name="service" ref="userDaoServiceImpl"/>
+        <property name="serviceInterface" value="ru.inno.service.UserDaoService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+
+
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -29,11 +46,11 @@
         <property name="dataSource" ref="dataSource" />
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 
-        <!--<property name="packagesToScan">-->
-            <!--<list>-->
-                <!--<value>ru.inno.entity</value>-->
-            <!--</list>-->
-        <!--</property>-->
+        <property name="packagesToScan">
+            <list>
+                <value>ru.inno.entity</value>
+            </list>
+        </property>
 
         <property name="jpaProperties">
             <props>
@@ -88,23 +105,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-
-<!--
-
-            RMI
-
--->
-
-    <bean id="remoteUserDao" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://localhost:1199/userDaoService"/>
-        <property name="serviceInterface" value="ru.inno.service.UserDaoService"/>
-    </bean>
-    <bean id="remoteBookDao" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://localhost:1199/bookDaoService"/>
-        <property name="serviceInterface" value="ru.inno.service.BookDaoService"/>
-    </bean>
-
-
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 

@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 @Ignore
 public class BookDaoImplTest {
+/*
 
     BookDaoImpl bookDao = null;
     @Ignore
@@ -65,5 +66,6 @@ public class BookDaoImplTest {
     public void getAllBooks() throws Exception {
 
     }
+*/
 
 }
