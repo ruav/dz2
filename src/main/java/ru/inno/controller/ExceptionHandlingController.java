@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by ruav on 15.01.17.
  */
-//@ControllerAdvice
+@ControllerAdvice
 //@Controller
 public class ExceptionHandlingController {
 
@@ -20,8 +20,8 @@ public class ExceptionHandlingController {
 
     private Logger logger = LoggerFactory.getLogger(ExceptionHandlingController.class);
 
-//    @ExceptionHandler({MyException.class,Exception.class})
-    @ExceptionHandler(MyException.class)
+    @ExceptionHandler({MyException.class,Exception.class})
+//    @ExceptionHandler(MyException.class)
     public String error(HttpServletRequest req, Exception e) {
 
         logger.info("Exception!!!!! " + e.getMessage());

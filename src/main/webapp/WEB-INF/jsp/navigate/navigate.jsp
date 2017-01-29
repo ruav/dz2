@@ -3,9 +3,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/js/mdl/material.min.css">
+    <%--<link rel="stylesheet" href="/js/mdl/material.min.css">--%>
+    <link rel="stylesheet" href="<c:url value="/js/mdl/material.min.css" />">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script type="text/javascript" src="/js/mdl/material.min.js"></script>
+    <%--<script type="text/javascript" src="/js/mdl/material.min.js"></script>--%>
+    <script type="text/javascript" src="<c:url value="/js/mdl/material.min.js" />"></script>
     <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/mdl/material.min.js"></script>--%>
 
     <style>
@@ -55,7 +57,7 @@
         Вы зашли, как
 
         <c:if test="${not fn:contains(requestScope['javax.servlet.forward.request_uri'], 'users/user/')}">
-        <a class="block_button" tabindex="0" href="/users/user/${sessionScope.userId}">${pageContext.request.userPrincipal.name}</a>
+        <a class="block_button" tabindex="0" href="${pageContext.request.contextPath}/users/user/${sessionScope.userId}">${pageContext.request.userPrincipal.name}</a>
         </c:if>
         <%--<c:if test="${not fn:contains(requestScope['javax.servlet.forward.request_uri'], 'users/user/')}">--%>
             <%--<a class="block_button" tabindex="0" href="/users/user/${sessionScope.userId}">${sessionScope.userName}</a>--%>
@@ -65,7 +67,7 @@
         </c:if>
         <td>
 
-                <c:url var="logoutUrl" value="/logout" />
+                <c:url var="logoutUrl" value="${pageContext.request.contextPath}/logout" />
                 <form action="${logoutUrl}" method="get" id="logoutForm" style="display:table-cell;vertical-align:center;">
                     <a class="block_button" tabindex="1" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -91,8 +93,8 @@
             </tr>
         </table>
     </div>
-        <a class="block_button" tabindex="1" href="/books">Перейти к списку книг</a>
-    <a class="block_button" tabindex="1" href="/users">Перейти к списку пользователей</a>
+        <a class="block_button" tabindex="1" href="${pageContext.request.contextPath}/books">Перейти к списку книг</a>
+    <a class="block_button" tabindex="1" href="${pageContext.request.contextPath}/users">Перейти к списку пользователей</a>
 
     <%--<form>--%>
 

@@ -1,9 +1,11 @@
 package ru.inno.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author Alexander Rudnev
  */
-public class Book {
+public class Book implements Serializable {
 
 //    Название, имя автора, год издания, издательство
 
@@ -14,6 +16,8 @@ public class Book {
     private int yearPublishing;
     private String publisher;
     private int version;
+
+    private static final long serialVersionUID = 1L;
 
     public Book() {
         title = "";

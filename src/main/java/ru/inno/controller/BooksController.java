@@ -1,6 +1,7 @@
 package ru.inno.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,15 @@ import java.util.Map;
 /**
  * Created by ruav on 10.01.17.
  */
+//@Async
 @Controller
 public class BooksController extends ExceptionHandlingController{
 
     @Autowired
     private BookDaoService bookDaoService;
+
+    @Autowired
+    private UserDaoService userDaoService;
 
 //    @Autowired
 //    private UserDaoService userDaoService;
@@ -73,13 +78,12 @@ public class BooksController extends ExceptionHandlingController{
 
                 HttpSession session = req.getSession();
 
-
-/*
+//*
                 Map<Integer, Integer> ids = new HashMap<>();
                 User user =  userDaoService.getById(
                         Integer.parseInt(session.getAttribute("userId").toString())
                 );
-                System.out.println(user.getBooks().size());
+//                System.out.println(user.getBooks().size());
 //                user.getBooks().stream()
 ////                    .getBooks().stream()
 //                    .map((b) -> {
@@ -91,7 +95,8 @@ public class BooksController extends ExceptionHandlingController{
 //                for(Book book : user.getBooks()){
 //                    ids.add(book.getId());
 //                }
-                modelAndView.addObject("ids",ids);*/
+                modelAndView.addObject("ids",ids);
+//*/
 
             }
         } catch (MyException e) {

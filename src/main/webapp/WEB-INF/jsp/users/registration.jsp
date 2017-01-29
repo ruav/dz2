@@ -79,7 +79,7 @@
 
 </head>
 <body>
-<form method="post" action="/register" id="registration">
+<form method="post" action="${pageContext.request.contextPath}/register" id="registration">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <fieldset>
         <legend>Регистрация</legend>

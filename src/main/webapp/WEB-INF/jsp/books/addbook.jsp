@@ -14,7 +14,7 @@
 <body>
 <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
-<form method="get" action="/books">
+<form method="get" action="${pageContext.request.contextPath}/books">
 
     <fieldset>
         <legend>Добавление новой книги</legend>

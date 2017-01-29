@@ -51,19 +51,19 @@
         padding: 4px; /* Поля в ячейках */
       }
       table.tablesorter thead tr .header {
-        background-image: url(/js/jqsort/bg.gif);
+        background-image: url(<c:url value="/js/jqsort/bg.gif" />);
         background-repeat: no-repeat;
         background-position: center right;
         cursor: pointer;
       }
 
       table.tablesorter thead tr .headerSortUp {
-        background-image: url(/js/jqsort/asc.gif);
+        background-image: url(<c:url value="/js/jqsort/asc.gif" />);
         background-color: #a673ff;
 
       }
       table.tablesorter thead tr .headerSortDown {
-        background-image: url(/js/jqsort/desc.gif);
+        background-image: url(<c:url value="/js/jqsort/desc.gif" />);
         background-color: #159525;
 
       }
@@ -83,8 +83,11 @@
     <%--<script src="<c:url value="/js/jqsort/jquery.tablesorter.js" />"></script>--%>
     <%--<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.1.1.min.js" />"></script>--%>
     <script type="text/javascript" src="/js/jquery/jquery-3.1.1.min.js" ></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.1.1.min.js" />" ></script>
     <script type="text/javascript" src="/js/jquery/jquery.dataTables.min.js" ></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery/jquery.dataTables.min.js" />" ></script>
     <link rel="stylesheet" type="text/css" href="/js/jquery/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/js/jquery/jquery.dataTables.min.css" />">
 
     <%--<script type="text/javascript" src="/js/jqsort/jquery-latest.js" ></script>--%>
     <%--<script type="text/javascript" src="/js/jqsort/jquery.tablesorter.js" ></script>--%>
@@ -130,13 +133,15 @@
     <%--</form>--%>
     <c:if test="${sessionScope.admin eq true}">
         <form>
-          <input type="button" value="Добавить новую книгу" onClick='location.href="/books/addbook"'>
+          <input type="button" value="Добавить новую книгу" onClick='location.href="${pageContext.request.contextPath}/books/addbook"'>
         </form>
     </c:if>
 
     <%--</form>--%>
   </div>
-
+  <%--<div>--%>
+  <%--ids size = ${ids.size()}--%>
+  <%--</div>--%>
   <table id="myTable" class="books tablesorter" style="width: 100%;">
     <thead>
     <tr>
@@ -152,26 +157,28 @@
     </tr>
     </thead>
     <tbody>
+
     <c:forEach items="${books}" var="book">
       <c:set value="${book.id}" var="bookid"/>
       <tr>
         <td class="books">
-          <a href="/books/book/${book.id}">${book.title}</a>
+          <a href="${pageContext.request.contextPath}/books/book/${book.id}">${book.title}</a>
         </td>
         <td class="books">${book.author}</td>
         <td class="books">${book.yearPublishing}</td>
         <td class="books">${book.publisher}</td>
         <td class="books">
-          <%--<c:if test="${ids.containsKey('${bookid}')}">--%>
-            <%--Прочитана--%>
-          <%--</c:if>--%>
-          <%--<c:if test="${ids.containsKey('${bookid}')}">--%>
-          <a  href="/users/user/${sessionScope.userId}/addbook/${book.id}" >Прочитал</a>
-          <%--</c:if>--%>
+          <c:if test="${not empty ids[book.id]}">
+            Прочитана
+          </c:if>
+          <%--<c:if test="${ids.containsKey(bookid)}">--%>
+          <c:if test="${empty ids[book.id]}">
+          <a  href="${pageContext.request.contextPath}/users/user/${sessionScope.userId}/addbook/${book.id}" >Прочитал</a>
+          </c:if>
         </td>
         <c:if test="${sessionScope.admin eq true}">
           <td class="books">
-            <a  href="/books?edit=${book.id}" >Редактировать</a>
+            <a  href="${pageContext.request.contextPath}/books?edit=${book.id}" >Редактировать</a>
             <%--<form id="editbook${book.id}" method="get" action="/books">--%>
               <%--<a  href="javascript:;"--%>
                  <%--onclick="document.getElementById('editbook${book.id}').submit();">Редактировать</a>--%>
@@ -180,7 +187,7 @@
             <%--</form>--%>
           </td>
           <td  class="books">
-            <form id="remove${book.id}" method="post" action="/books/remove" style="display:table-cell;vertical-align:center;">
+            <form id="remove${book.id}" method="post" action="${pageContext.request.contextPath}/books/remove" style="display:table-cell;vertical-align:center;">
                 <a  href="javascript:;"
                 onclick="document.getElementById('remove${book.id}').submit();">Удалить</a>
                 <input type="hidden" name="remove" value="${book.id}" >

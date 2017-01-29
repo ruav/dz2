@@ -93,13 +93,13 @@
                 <c:forEach items="${user.books}" var="book">
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="/books/book/${book.id}">${book.title}</a>
+                            <a href="${pageContext.request.contextPath}/books/book/${book.id}">${book.title}</a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">${book.author}</td>
                         <td class="mdl-data-table__cell--non-numeric">${book.yearPublishing}</td>
                         <td class="mdl-data-table__cell--non-numeric">${book.publisher}</td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="/users/user/${user.id}/removebook/${book.id}">Не читал</a>
+                            <a href="${pageContext.request.contextPath}/users/user/${user.id}/removebook/${book.id}">Не читал</a>
                         </td>
                     </tr>
                 </c:forEach>

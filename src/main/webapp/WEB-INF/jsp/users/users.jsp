@@ -70,18 +70,18 @@
 
     <c:forEach items="${users}" var="user">
       <tr>
-        <td class="mdl-data-table__cell--non-numeric "><a class="mdl-navigation__link" href="/users/user/${user.id}">${user.login}</a></td>
+        <td class="mdl-data-table__cell--non-numeric "><a class="mdl-navigation__link" href="${pageContext.request.contextPath}/users/user/${user.id}">${user.login}</a></td>
         <td class="mdl-data-table__cell--non-numeric">${user.firstName}</td>
         <td class="mdl-data-table__cell--non-numeric">${user.lastName}</td>
         <c:if test="${sessionScope.admin eq true}">
           <td class="mdl-data-table__cell--non-numeric">
-            <a class="mdl-navigation__link" href="/users?edit=${user.id}">Редактировать</a>
+            <a class="mdl-navigation__link" href="${pageContext.request.contextPath}/users?edit=${user.id}">Редактировать</a>
             <%--<form method="get" action="/users">--%>
               <%--<button class="mdl-button mdl-js-button mdl-button--raised " type="submit" value="${user.id}" name="edit">Редактировать</button>--%>
             <%--</form>--%>
           </td>
           <td class="mdl-data-table__cell--non-numeric">
-            <form id="remove${user.id}" method="post" action="/users" style="display:table-cell;vertical-align:center;">
+            <form id="remove${user.id}" method="post" action="${pageContext.request.contextPath}/users" style="display:table-cell;vertical-align:center;">
               <a class="mdl-navigation__link" href="javascript:;"
                   onclick="document.getElementById('remove${user.id}').submit();">Удалить</a>
               <input type="hidden" name="remove" value="${user.id}" >
@@ -92,7 +92,7 @@
           </td>
           </c:if>
           <td class="mdl-data-table__cell--non-numeric">
-            <form method="post" action="/users" >
+            <form method="post" action="${pageContext.request.contextPath}/users" >
               <input type="checkbox" name="isadmin" value="true"
                 <c:if test="${sessionScope.admin eq true}">
                   onclick="this.form.submit();"

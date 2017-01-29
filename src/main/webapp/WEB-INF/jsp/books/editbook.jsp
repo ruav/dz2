@@ -20,7 +20,7 @@
 <%--private String publisher;--%>
 <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
-<form method="post" action="/books/edit">
+<form method="post" action="${pageContext.request.contextPath}/books/edit">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
     <table>
@@ -62,7 +62,7 @@
     <input type="hidden" name="version" value = "${book.version}">
 
     <button type="submit" name="editbook" value="true">Изменить</button>
-    <input type="button" value="Отменить" onClick='location.href="/books"'>
+    <input type="button" value="Отменить" onClick='location.href="${pageContext.request.contextPath}/books"'>
 </form>
 
 

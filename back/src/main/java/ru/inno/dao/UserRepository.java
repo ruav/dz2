@@ -2,6 +2,7 @@ package ru.inno.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.inno.entity.UserEntity;
 
 /**
@@ -13,8 +14,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer>{
 
     UserEntity findById(Integer id);
     UserEntity findByLogin(String login);
-
-    long removeById(int id);
+    @Transactional
+    long deleteById(int id);
 
 
 //    List<BookEntity> findAll();

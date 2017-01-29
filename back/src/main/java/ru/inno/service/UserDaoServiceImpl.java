@@ -3,6 +3,7 @@ package ru.inno.service;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.inno.dao.UserRepository;
 import ru.inno.entity.BookEntity;
@@ -24,8 +25,10 @@ import java.util.stream.StreamSupport;
 //@Component
 //@ComponentScan
 //@Configurable
+//@Async
 @Service
-public class UserDaoServiceImpl implements UserDaoService, Serializable{
+@Qualifier(value = "userDaoServiceImpl")
+public class UserDaoServiceImpl implements UserDaoService{
 
 //    @Autowired
 //    private  UserDao userDao;
@@ -101,7 +104,7 @@ public class UserDaoServiceImpl implements UserDaoService, Serializable{
 //        return userDao.getAll();
     }
     public  void removeById(int id) throws MyException {
-        userRepository.removeById(id);
+        userRepository.deleteById(id);
 //        userDao.removeById(id);
     }
     public  void add(User user) throws MyException {

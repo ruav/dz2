@@ -1,6 +1,7 @@
 package ru.inno.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by ruav on 08.01.17.
  */
-
+//@Async
 @Controller
 public class UsersController extends ExceptionHandlingController{
 

@@ -39,7 +39,7 @@
 <body>
 <c:import url="/WEB-INF/jsp/navigate/navigate.jsp"/>
 
-<form method="post" action="/users" id="form">
+<form method="post" action="${pageContext.request.contextPath}/users" id="form">
     <table>
         <tr>
             <td>
@@ -90,7 +90,7 @@
     <input type="hidden" name="admin" value="${user.admin}">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <button type="button" name="edituser" value="true" onclick = submitEdit()>Изменить</button>
-    <input type="button" value="Отменить" onClick='location.href="/users"'>
+    <input type="button" value="Отменить" onClick='location.href="${pageContext.request.contextPath}/users"'>
 </form>
 
 </body>

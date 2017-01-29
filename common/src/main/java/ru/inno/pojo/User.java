@@ -1,12 +1,13 @@
 package ru.inno.pojo;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author Alexander Rudnev
  */
-public class User {
+public class User implements Serializable {
 
     private int id;
     private String login;
@@ -16,6 +17,8 @@ public class User {
     private String lastName;
     private int version;
     private Set<Book> books ;
+
+    private static final long serialVersionUID = 1L;
 
     public User() {
         login = "";

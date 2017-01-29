@@ -3,6 +3,7 @@ package ru.inno.service;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.inno.dao.BookRepository;
 import ru.inno.entity.BookEntity;
@@ -17,8 +18,10 @@ import java.util.stream.StreamSupport;
 /**
  * @author Alexander Rudnev
  */
+//@Async
 @Service
-public class BookDaoServiceImpl implements BookDaoService, Serializable{
+@Qualifier(value = "bookDaoServiceImpl")
+public class BookDaoServiceImpl implements BookDaoService{
 
 //    @Autowired
 //    private BookDao bookDao;

@@ -1,4 +1,0 @@
-rootProject.name = 'back'
-include 'common'
-//include 'back'
-

@@ -10,7 +10,7 @@ import ru.inno.utils.MyException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        UserEntity emp = (UserEntity) em.find(UserEntity.class, id);
+        UserEntity emp =  em.find(UserEntity.class, id);
 
         if(emp != null) {
             user = emp.getUser();
@@ -56,10 +56,11 @@ public class UserDaoImpl implements UserDao {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        Query q = em.createQuery("SELECT b FROM UserEntity b WHERE b.login = :custName", UserEntity.class).setParameter("custName", login);
+        TypedQuery<UserEntity> q = em.createQuery("SELECT b FROM UserEntity b WHERE b.login = :custName", UserEntity.class).setParameter("custName", login);
         List<UserEntity> userEntities = q.getResultList();
-
-        user = userEntities.get(0).getUser();
+        if(userEntities.size() > 0) {
+            user = userEntities.get(0).getUser();
+        }
         em.close();
         return user;
     }
@@ -85,7 +86,7 @@ public class UserDaoImpl implements UserDao {
 //        Query query = em.createQuery("SELECT e FROM books e", BookEntity.class);
 //        TypedQuery<BookEntity> query = em.createQuery("select id, title, author, publisher, yearpublishing from books", BookEntity.class);
 //        List<BookEntity> bookEntities = (List<BookEntity>) query.getResultList();
-        Query q = em.createQuery("select b from UserEntity b", UserEntity.class);
+        TypedQuery<UserEntity> q = em.createQuery("select b from UserEntity b", UserEntity.class);
         List<UserEntity> userEntities = q.getResultList();
 
         for(UserEntity ue : userEntities){

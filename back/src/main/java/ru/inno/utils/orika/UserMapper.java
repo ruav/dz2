@@ -14,7 +14,7 @@ import ru.inno.pojo.User;
  */
 @Component
 @Qualifier("userMapper")
-@Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 
 public class UserMapper extends ConfigurableMapper {
 

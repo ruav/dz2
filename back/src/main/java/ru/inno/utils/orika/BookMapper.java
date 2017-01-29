@@ -14,7 +14,7 @@ import ru.inno.pojo.Book;
  */
 @Component
 @Qualifier("bookMapper")
-@Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class BookMapper extends ConfigurableMapper {
 
     protected void configure(MapperFactory factory) {

@@ -1,8 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="ru.inno.dao.UserDao" %>
-<%@ page import="ru.inno.dao.UserDaoImpl" %>
-<%@ page import="ru.inno.dao.DBConnection" %>
 <%@ page import="ru.inno.pojo.User" %>
 <%--
   Created by IntelliJ IDEA.
@@ -80,25 +77,18 @@
 <body>
 
 
-<%--<c:set var="userId" scope="session" value="${sessionScope.userId}"/>--%>
 
 <sec:authorize access="hasRole('ROLE_USER')">
     <c:redirect url="/books"/>
 </sec:authorize>
 
 
-<%--<c:if test="${sessionScope.admin eq false}">
-    <c:redirect url="/books"/>
-</c:if>--%>
 
 
 <sec:authorize access="hasRole('ROLE_ADMIN')">
     <h3>Вы зашли, как ${pageContext.request.userPrincipal.name}</h3>
-    <%--<form action="/autority" method="post">--%>
-        <%--<button type="submit" value="exit" name="exit">Выйти из текущего пользователя</button>--%>
-    <%--</form>--%>
 
-    <c:url var="logoutUrl" value="/logout" />
+    <c:url var="logoutUrl" value="${pageContext.request.contextPath}/logout" />
     <form action="${logoutUrl}" method="get" id="logoutForm" style="display:table-cell;vertical-align:center;">
         <a class="block_button" tabindex="1" href="javascript:document.getElementById('logoutForm').submit()">Выйти из текущего пользователя</a>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -106,54 +96,23 @@
     <table>
         <tr>
             <td>
-                <output><a class="list" href="/users">Посмотреть список пользователей</a></output>
+                <output><a class="list" href="${pageContext.request.contextPath}/users">Посмотреть список пользователей</a></output>
             </td>
         </tr>
         <tr>
             <td>
-                <output><a class="list" href="/books">Посмотреть список литературы</a></output>
+                <output><a class="list" href="${pageContext.request.contextPath}/books">Посмотреть список литературы</a></output>
             </td>
         </tr>
 
     </table>
 </sec:authorize>
 
-
-
-<%--<c:if test="${not empty sessionScope.userName}">
-
-    <h3>Вы зашли, как ${sessionScope.userName}</h3>
-    <form action="/autority" method="post">
-        <button type="submit" value="exit" name="exit">Выйти из текущего пользователя</button>
-    </form>
-
-    <table>
-        <tr>
-            <td>
-                <output><a href="/users">Посмотреть список пользователей</a></output>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <output><a href="/books">Посмотреть список литературы</a></output>
-            </td>
-        </tr>
-
-    </table>
-</c:if>--%>
-
-<%--<sec:authorize access="!hasRole('ROLE_ADMIN')   ">--%>
-    <%--<c:redirect url="/books"/>--%>
-<%--</sec:authorize>--%>
 
 <sec:authorize access="isAnonymous()">
     <c:redirect url="/login"/>
 </sec:authorize>
 
-<%--<c:if test="${empty userId}">
-    &lt;%&ndash;<div>Войдите в систему</div>&ndash;%&gt;
-    <c:redirect url="/login"/>
-</c:if>--%>
 
 </body>
 </html>
