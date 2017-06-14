@@ -67,7 +67,8 @@
         </c:if>
         <td>
 
-                <c:url var="logoutUrl" value="${pageContext.request.contextPath}/logout" />
+                <%--<c:url var="logoutUrl" value="${pageContext.request.contextPath}/logout" />--%>
+                <c:url var="logoutUrl" value="logout" />
                 <form action="${logoutUrl}" method="get" id="logoutForm" style="display:table-cell;vertical-align:center;">
                     <a class="block_button" tabindex="1" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
